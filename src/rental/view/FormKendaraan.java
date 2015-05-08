@@ -38,12 +38,13 @@ public class FormKendaraan extends javax.swing.JPanel {
         rdTersedia.setSelected(true);
         txtSearch.setText("Search");
         viewTable();
+        autokode();
     }
 
     public void viewTable() {
         rst = cdb.executeQuery("SELECT * FROM tb_kendaraan ORDER BY id_kendaraan ASC");
         tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
-        ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Tahun", "Jenis", "Kondisi", "Status"});
+        ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
     }
 
     /**
@@ -81,7 +82,7 @@ public class FormKendaraan extends javax.swing.JPanel {
         rdSewa = new javax.swing.JRadioButton();
         lblWarna = new javax.swing.JLabel();
         txtMerek = new javax.swing.JTextField();
-        txtWarna = new javax.swing.JTextField();
+        txtHarga = new javax.swing.JTextField();
         lblMerek = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
         lblNopol = new javax.swing.JLabel();
@@ -90,6 +91,8 @@ public class FormKendaraan extends javax.swing.JPanel {
         lblTahun = new javax.swing.JLabel();
         cbTahun = new javax.swing.JComboBox();
         jPanel7 = new javax.swing.JPanel();
+        lblHarga = new javax.swing.JLabel();
+        txtWarna = new javax.swing.JTextField();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -234,7 +237,7 @@ public class FormKendaraan extends javax.swing.JPanel {
         lblWarna.setText("Warna");
         add(lblWarna, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, -1, -1));
         add(txtMerek, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 176, -1));
-        add(txtWarna, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 176, -1));
+        add(txtHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 176, -1));
 
         lblMerek.setText("Merek");
         add(lblMerek, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
@@ -244,14 +247,16 @@ public class FormKendaraan extends javax.swing.JPanel {
 
         lblNopol.setText("Nomor Plat");
         add(lblNopol, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
+
+        txtID.setEnabled(false);
         add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 176, -1));
         add(txtNopol, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 176, -1));
 
         lblTahun.setText("Tahun");
-        add(lblTahun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+        add(lblTahun, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
 
         cbTahun.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015" }));
-        add(cbTahun, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 124, -1));
+        add(cbTahun, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 124, -1));
 
         jPanel7.setBackground(new java.awt.Color(0, 204, 255));
 
@@ -267,6 +272,10 @@ public class FormKendaraan extends javax.swing.JPanel {
         );
 
         add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 570, 650, 30));
+
+        lblHarga.setText("Harga Sewa");
+        add(lblHarga, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+        add(txtWarna, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 176, -1));
 
         getAccessibleContext().setAccessibleName("");
         getAccessibleContext().setAccessibleDescription("");
@@ -294,7 +303,7 @@ public class FormKendaraan extends javax.swing.JPanel {
                 + "status LIKE '%" + txtSearch.getText() + "%' "
                 + "ORDER BY id_kendaraan ASC");
         tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
-        ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Tahun", "Jenis", "Kondisi", "Status"});
+        ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void tableKendaraanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKendaraanMouseClicked
@@ -303,8 +312,27 @@ public class FormKendaraan extends javax.swing.JPanel {
         txtNopol.setText(model.getValueAt(tableKendaraan.getSelectedRow(), 1).toString());
         txtMerek.setText(model.getValueAt(tableKendaraan.getSelectedRow(), 2).toString());
         txtWarna.setText(model.getValueAt(tableKendaraan.getSelectedRow(), 3).toString());
-        int index = Integer.parseInt(model.getValueAt(tableKendaraan.getSelectedRow(), 4).toString());
+        txtHarga.setText(model.getValueAt(tableKendaraan.getSelectedRow(), 4).toString());
+        int index = Integer.parseInt(model.getValueAt(tableKendaraan.getSelectedRow(), 5).toString());
         cbTahun.setSelectedIndex(index - 2006);
+        String rdJenis = model.getValueAt(tableKendaraan.getSelectedRow(), 6).toString();
+        String rdKondisi = model.getValueAt(tableKendaraan.getSelectedRow(), 7).toString();
+        String rdStatus = model.getValueAt(tableKendaraan.getSelectedRow(), 8).toString();
+        if (rdJenis.equalsIgnoreCase("Mobil")) {
+            rdMobil.setSelected(true);
+        } else {
+            rdMotor.setSelected(true);
+        }
+        if (rdKondisi.equalsIgnoreCase("Baik")) {
+            rdBaik.setSelected(true);
+        } else {
+            rdRusak.setSelected(true);
+        }
+        if (rdStatus.equalsIgnoreCase("Tersedia")) {
+            rdTersedia.setSelected(true);
+        } else {
+            rdSewa.setSelected(true);
+        }
     }//GEN-LAST:event_tableKendaraanMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -314,6 +342,7 @@ public class FormKendaraan extends javax.swing.JPanel {
                     + "'" + txtNopol.getText() + "',"
                     + "'" + txtMerek.getText() + "',"
                     + "'" + txtWarna.getText() + "',"
+                    + "'" + txtHarga.getText() + "',"
                     + "'" + cbTahun.getSelectedItem().toString() + "',"
                     + "'" + getSelectedButtonText(rdGroupJenis) + "',"
                     + "'" + getSelectedButtonText(rdGroupKondisi) + "',"
@@ -338,6 +367,7 @@ public class FormKendaraan extends javax.swing.JPanel {
                         + "no_plat = '" + txtNopol.getText() + "', "
                         + "merek = '" + txtMerek.getText() + "', "
                         + "warna = '" + txtWarna.getText() + "', "
+                        + "harga = '" + txtHarga.getText() + "', "
                         + "tahun = '" + cbTahun.getSelectedItem().toString() + "', "
                         + "jenis = '" + getSelectedButtonText(rdGroupJenis) + "', "
                         + "kondisi = '" + getSelectedButtonText(rdGroupKondisi) + "', "
@@ -345,18 +375,17 @@ public class FormKendaraan extends javax.swing.JPanel {
                         + "WHERE id_kendaraan = '" + txtID.getText() + "'");
                 JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Data Gagal di Update !");
         }
         viewTable();
-
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        txtID.setText("");
+        autokode();
         txtMerek.setText("");
         txtNopol.setText("");
+        txtHarga.setText("");
         txtWarna.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
@@ -390,6 +419,31 @@ public class FormKendaraan extends javax.swing.JPanel {
         return null;
     }
 
+    private void autokode() {
+        try {
+            String sql = "SELECT COUNT(id_kendaraan) AS no FROM tb_kendaraan";
+            ResultSet rs = cdb.executeQuery(sql);
+            while (rs.next()) {
+                if (rs.getInt(1) == 0) {
+                    txtID.setText("K00001");
+                } else {
+                    int auto = rs.getInt(1) + 1;
+                    String no = String.valueOf(auto);
+                    int noLong = no.length();
+                    for (int i = 0; i < 5 - noLong; i++) {
+                        no = "0" + no;
+                    }
+                    txtID.setText("K" + no);
+                }
+            }
+
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERROR: \n" + e.toString(),
+                    "Kesalahan", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
@@ -401,6 +455,7 @@ public class FormKendaraan extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JLabel lblHarga;
     private javax.swing.JLabel lblHeader;
     private javax.swing.JLabel lblID;
     private javax.swing.JLabel lblJenis;
@@ -421,6 +476,7 @@ public class FormKendaraan extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdSewa;
     private javax.swing.JRadioButton rdTersedia;
     private javax.swing.JTable tableKendaraan;
+    private javax.swing.JTextField txtHarga;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtMerek;
     private javax.swing.JTextField txtNopol;

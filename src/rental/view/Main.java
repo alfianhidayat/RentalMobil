@@ -48,6 +48,7 @@ public class Main extends javax.swing.JFrame {
         panelKendaraan.setVisible(false);
         panelPenyewaan.setVisible(false);
         panelMenu.setVisible(false);
+        panelPengembalian.setVisible(false);
     }
 
     /**

@@ -25,8 +25,7 @@ public class ConnectionDB {
         try {
             Class.forName("org.sqlite.JDBC");
             conn = DriverManager.getConnection("jdbc:sqlite:rental.sqlite");
-            System.out.println("Connection Success");
-
+//            System.out.println("Connection Success");
         } catch (Exception e) {
             System.err.print(e.getMessage());
         }

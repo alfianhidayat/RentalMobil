@@ -8,12 +8,16 @@ package rental.view;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
+import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import rental.dbconnection.ConnectionDB;
@@ -37,29 +41,46 @@ public class FormPenyewaan extends javax.swing.JPanel {
         buttonGroup1.add(rdMotor);
         rdMobil.setSelected(true);
         txtSearch.setText("Search");
+        spLamaSewa.setModel(new SpinnerNumberModel(0, 0, 1000, 1));
         viewTable();
         setComboBoxItem();
+        autokode();
     }
 
     public void setComboBoxItem() {
         cbIDKendaraan.removeAllItems();
         cbIDKendaraan.addItem("Pilih");
+        cbIDMember.removeAllItems();
+        cbIDMember.addItem("Pilih");
         try {
             rst = cdb.executeQuery("SELECT id_kendaraan from tb_kendaraan WHERE status ='Tersedia' and kondisi = 'Baik' and jenis = '" + getSelectedButtonText(buttonGroup1) + "'");
             while (rst.next()) {
                 cbIDKendaraan.addItem(rst.getString(1));
             }
+            rst = cdb.executeQuery("SELECT id_member from tb_member");
+            while (rst.next()) {
+                cbIDMember.addItem(rst.getString(1));
+            }
+            rst.close();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
 
     public void viewTable() {
-        rst = cdb.executeQuery("SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali FROM tb_penyewaan as p, tb_member as m, tb_kendaraan as k "
-                + "where k.id_kendaraan = p.id_kendaraan and m.id_member = p.id_member "
-                + "ORDER BY no_faktur ASC");
-        tablePenyewaan.setModel(DbUtils.resultSetToTableModel(rst));
-        ((DefaultTableModel) tablePenyewaan.getModel()).setColumnIdentifiers(new Object[]{"Nomor Faktur", "Nama Member", "Merek Kendaraan", "Warna", "Tgl Sewa", "Tgl Kembali"});    }
+
+        try {
+            rst = cdb.executeQuery("SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali FROM tb_penyewaan as p, tb_member as m, tb_kendaraan as k "
+                    + "where k.id_kendaraan = p.id_kendaraan and m.id_member = p.id_member "
+                    + "ORDER BY no_faktur ASC");
+            tablePenyewaan.setModel(DbUtils.resultSetToTableModel(rst));
+            ((DefaultTableModel) tablePenyewaan.getModel()).setColumnIdentifiers(new Object[]{"Nomor Faktur", "Nama Member", "Merek Kendaraan", "Warna", "Tgl Sewa", "Tgl Kembali"});
+            rst.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,6 +144,11 @@ public class FormPenyewaan extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(475, 585));
 
         btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnSave.setText("Save");
 
@@ -159,6 +185,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
             }
         });
 
+        txtNamaMember.setEnabled(false);
+
         lblJenisKendaraan.setText("Jenis Kendaraan");
 
         txtSearch.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -167,6 +195,12 @@ public class FormPenyewaan extends javax.swing.JPanel {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtSearchFocusLost(evt);
+            }
+        });
+
+        cbIDMember.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbIDMemberItemStateChanged(evt);
             }
         });
 
@@ -180,24 +214,51 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblMerekKendaraan.setText("Merek Kendaraan");
 
+        txtMerekKendaraan.setEnabled(false);
+
         lblNopol.setText("Nomor Plat");
+
+        txtNopol.setEnabled(false);
 
         lblHargaSewa.setText("Harga Sewa");
 
+        txtHargaSewa.setEnabled(false);
+
         lblLamaSewa.setText("Lama Sewa");
+
+        spLamaSewa.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spLamaSewaStateChanged(evt);
+            }
+        });
 
         lblTglSewa.setText("Tanggal Sewa");
 
+        txtTglSewa.setEnabled(false);
+
         lblTglKembali.setText("Tanggal Kembali");
+
+        txtTglKembali.setEnabled(false);
 
         panelBiaya.setBackground(new java.awt.Color(255, 255, 255));
         panelBiaya.setBorder(javax.swing.BorderFactory.createTitledBorder("Biaya"));
 
         lblTotalBayar.setText("Total Bayar");
 
+        txtTotalBayar.setEnabled(false);
+
         lblDibayar.setText("Dibayar");
 
+        txtDibayar.setText("0");
+        txtDibayar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDibayarActionPerformed(evt);
+            }
+        });
+
         lblKembali.setText("Kembali");
+
+        txtKembali.setEnabled(false);
 
         javax.swing.GroupLayout panelBiayaLayout = new javax.swing.GroupLayout(panelBiaya);
         panelBiaya.setLayout(panelBiayaLayout);
@@ -235,6 +296,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
         );
 
         lblIDFaktur.setText("ID Sewa");
+
+        txtFaktur.setEnabled(false);
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 255));
 
@@ -421,7 +484,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
     private void txtSearchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusGained
         txtSearch.setText(null);
     }//GEN-LAST:event_txtSearchFocusGained
-    
+
     private void txtSearchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSearchFocusLost
         if (txtSearch.getText().equals("")) {
             txtSearch.setText("Search");
@@ -429,13 +492,17 @@ public class FormPenyewaan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchFocusLost
 
     private void cbIDKendaraanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDKendaraanItemStateChanged
+        rst = cdb.executeQuery("SELECT no_plat, merek, harga FROM tb_kendaraan WHERE id_kendaraan = '" + cbIDKendaraan.getSelectedItem() + "'");
         try {
-            rst = cdb.executeQuery("SELECT no_plat, merek FROM tb_kendaraan WHERE id_kendaraan = '" + cbIDKendaraan.getSelectedItem() + "'");
-            txtNopol.setText(rst.getString(1));
-            txtMerekKendaraan.setText(rst.getString(2));
+            if (rst.next()) {
+                txtNopol.setText(rst.getString(1));
+                txtMerekKendaraan.setText(rst.getString(2));
+                txtHargaSewa.setText(rst.getString(3));
+            }
+            rst.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } 
+            Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_cbIDKendaraanItemStateChanged
 
     private void rdMobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMobilMouseClicked
@@ -445,6 +512,43 @@ public class FormPenyewaan extends javax.swing.JPanel {
     private void rdMotorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMotorMouseClicked
         setComboBoxItem();
     }//GEN-LAST:event_rdMotorMouseClicked
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        autokode();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void cbIDMemberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDMemberItemStateChanged
+        rst = cdb.executeQuery("SELECT nama FROM tb_member WHERE id_member = '" + cbIDMember.getSelectedItem() + "'");
+        try {
+            if (rst.next()) {
+                txtNamaMember.setText(rst.getString(1));
+            }
+            rst.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_cbIDMemberItemStateChanged
+
+    private void spLamaSewaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spLamaSewaStateChanged
+        if (cbIDMember.getSelectedItem().equals("Pilih") & cbIDKendaraan.getSelectedItem().equals("Pilih")) {
+            if (!spLamaSewa.getValue().equals(0)) {
+                spLamaSewa.setValue(0);
+                JOptionPane.showMessageDialog(null, "Pilih ID Member dan ID Kendaraan terlebih dahulu !");
+            }
+        } else {
+            txtTglSewa.setText(currentDate());
+            int lama = Integer.parseInt(spLamaSewa.getValue().toString());
+            int harga = Integer.parseInt(txtHargaSewa.getText());
+            txtTglKembali.setText(addDate(lama));
+            txtTotalBayar.setText(String.valueOf(lama * harga));
+        }
+    }//GEN-LAST:event_spLamaSewaStateChanged
+
+    private void txtDibayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDibayarActionPerformed
+        int totalbayar = Integer.parseInt(txtTotalBayar.getText());
+        int dibayar = Integer.parseInt(txtDibayar.getText());
+        txtKembali.setText(String.valueOf(dibayar-totalbayar));
+    }//GEN-LAST:event_txtDibayarActionPerformed
     public String getSelectedButtonText(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
@@ -454,6 +558,46 @@ public class FormPenyewaan extends javax.swing.JPanel {
         }
         return null;
     }
+
+    private void autokode() {
+        try {
+            String sql = "SELECT COUNT(no_faktur) AS no FROM tb_penyewaan";
+            ResultSet rs = cdb.executeQuery(sql);
+            while (rs.next()) {
+                if (rs.getInt(1) == 0) {
+                    txtFaktur.setText("F00001");
+                } else {
+                    int auto = rs.getInt(1) + 1;
+                    String no = String.valueOf(auto);
+                    int noLong = no.length();
+                    for (int i = 0; i < 5 - noLong; i++) {
+                        no = "0" + no;
+                    }
+                    txtFaktur.setText("F" + no);
+                }
+            }
+
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR: \n" + e.toString(),
+                    "Kesalahan", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    public String currentDate() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Calendar cal = Calendar.getInstance();
+        return dateFormat.format(cal.getTime());
+    }
+
+    public String addDate(int q) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, q);
+        return dateFormat.format(cal.getTime());
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;

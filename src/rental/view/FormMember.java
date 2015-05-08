@@ -34,7 +34,7 @@ public class FormMember extends javax.swing.JPanel {
         rdLakiLaki.setSelected(true);
         viewTable();
         txtSearch.setText("Search");
-        System.out.println(rdLakiLaki.getActionCommand());
+        autokode();
     }
 
     public void viewTable() {
@@ -113,6 +113,8 @@ public class FormMember extends javax.swing.JPanel {
         lblIDMember.setText("ID Member");
 
         lblNama.setText("Nama");
+
+        txtIDMember.setEnabled(false);
 
         lblNoIdentitas.setText("No. Kartu Identitas");
 
@@ -341,7 +343,7 @@ public class FormMember extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchFocusLost
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        txtIDMember.setText("");
+        autokode();
         txtNama.setText("");
         txtNoIdentitas.setText("");
         txtAlamat.setText("");
@@ -430,7 +432,7 @@ public class FormMember extends javax.swing.JPanel {
                         + "'" + txtNomorHP.getText() + "',"
                         + "'" + getSelectedButtonText(buttonGroup1) + "')");
                 JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "ID Member tidak boleh kosong !");
             }
         } catch (Exception e) {
@@ -447,6 +449,34 @@ public class FormMember extends javax.swing.JPanel {
             }
         }
         return null;
+    }
+
+    private void autokode() {
+        try {
+            String sql = "SELECT COUNT(id_member) AS no FROM tb_member";
+            ResultSet rs = cdb.executeQuery(sql);
+            while (rs.next()) {
+                if (rs.getInt(1) == 0) {
+                    System.out.println("C00001");
+                    txtIDMember.setText("C00001");
+                } else {
+                    int auto = rs.getInt(1) + 1;
+                    String no = String.valueOf(auto);
+                    int noLong = no.length();
+                    for (int i = 0; i < 5 - noLong; i++) {
+                        no = "0" + no;
+                    }
+                    System.out.println("C" + no);
+                    txtIDMember.setText("C" + no);
+                }
+            }
+
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "ERROR: \n" + e.toString(),
+                    "Kesalahan", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
