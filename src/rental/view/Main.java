@@ -6,7 +6,9 @@
 package rental.view;
 
 import java.awt.*;
+import java.sql.ResultSet;
 import javax.swing.*;
+import rental.dbconnection.ConnectionDB;
 
 /**
  *
@@ -209,16 +211,20 @@ public class Main extends javax.swing.JFrame {
 
     private void meuFormMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meuFormMemberActionPerformed
         setPaneNull();
+        panelMember.viewTable();
         panelMember.setVisible(true);
     }//GEN-LAST:event_meuFormMemberActionPerformed
 
     private void menuFormKendaraanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFormKendaraanActionPerformed
         setPaneNull();
+        panelKendaraan.viewTable();
         panelKendaraan.setVisible(true);
     }//GEN-LAST:event_menuFormKendaraanActionPerformed
 
     private void menuFormPenyewaanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFormPenyewaanActionPerformed
         setPaneNull();
+        panelPenyewaan.setComboKendaraan();
+        panelPenyewaan.setComboMember();
         panelPenyewaan.setVisible(true);
     }//GEN-LAST:event_menuFormPenyewaanActionPerformed
 
@@ -250,9 +256,9 @@ public class Main extends javax.swing.JFrame {
         panelPengembalian.setVisible(true);
     }//GEN-LAST:event_menuFormPengembalianActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

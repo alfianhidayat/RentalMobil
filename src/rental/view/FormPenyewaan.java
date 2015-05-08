@@ -23,6 +23,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import rental.dbconnection.ConnectionDB;
+import rental.util.Controller;
 
 /**
  *
@@ -31,6 +32,7 @@ import rental.dbconnection.ConnectionDB;
 public class FormPenyewaan extends javax.swing.JPanel {
 
     ConnectionDB cdb = new ConnectionDB();
+    Controller ctr = new Controller();
     Statement stms = null;
     ResultSet rst = null;
     int biayaSewa = 0;
@@ -48,20 +50,33 @@ public class FormPenyewaan extends javax.swing.JPanel {
         txtSearch.setText("Search");
         spLamaSewa.setModel(new SpinnerNumberModel(0, 0, 1000, 1));
         viewTable();
-        setComboBoxItem();
-        autokode();
+        setComboKendaraan();
+        setComboMember();
+        setIDFaktur();
     }
 
-    public void setComboBoxItem() {
+    public void setIDFaktur() {
+        String query = "SELECT COUNT(no_faktur)as no FROM tb_penyewaan";
+        txtFaktur.setText(ctr.autokode(query, "F"));
+    }
+
+    public void setComboKendaraan() {
         cbIDKendaraan.removeAllItems();
         cbIDKendaraan.addItem("Pilih");
-        cbIDMember.removeAllItems();
-        cbIDMember.addItem("Pilih");
         try {
             rst = cdb.executeQuery("SELECT id_kendaraan from tb_kendaraan WHERE status ='Tersedia' and kondisi = 'Baik' and jenis = '" + getSelectedButtonText(buttonGroup1) + "'");
             while (rst.next()) {
                 cbIDKendaraan.addItem(rst.getString(1));
             }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void setComboMember() {
+        cbIDMember.removeAllItems();
+        cbIDMember.addItem("Pilih");
+        try {
             rst = cdb.executeQuery("SELECT id_member from tb_member");
             while (rst.next()) {
                 cbIDMember.addItem(rst.getString(1));
@@ -80,8 +95,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
                     + "ORDER BY no_faktur ASC");
             tablePenyewaan.setModel(DbUtils.resultSetToTableModel(rst));
             ((DefaultTableModel) tablePenyewaan.getModel()).setColumnIdentifiers(new Object[]{"Nomor Faktur", "Nama Member", "Merek Kendaraan", "Tgl Sewa", "Tgl Kembali", "Total Bayar"});
-            if(rst.next()){
-                System.out.println(rst.getInt(7)+8);
+            if (rst.next()) {
+                System.out.println(rst.getInt(7) + 8);
             }
             rst.close();
         } catch (SQLException ex) {
@@ -198,6 +213,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
             }
         });
 
+        txtNamaMember.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtNamaMember.setEnabled(false);
 
         lblJenisKendaraan.setText("Jenis Kendaraan");
@@ -227,14 +243,17 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblMerekKendaraan.setText("Merek Kendaraan");
 
+        txtMerekKendaraan.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtMerekKendaraan.setEnabled(false);
 
         lblNopol.setText("Nomor Plat");
 
+        txtNopol.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtNopol.setEnabled(false);
 
         lblHargaSewa.setText("Harga Sewa");
 
+        txtHargaSewa.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtHargaSewa.setEnabled(false);
 
         lblLamaSewa.setText("Lama Sewa");
@@ -247,10 +266,12 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblTglSewa.setText("Tanggal Sewa");
 
+        txtTglSewa.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtTglSewa.setEnabled(false);
 
         lblTglKembali.setText("Tanggal Kembali");
 
+        txtTglKembali.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtTglKembali.setEnabled(false);
 
         panelBiaya.setBackground(new java.awt.Color(255, 255, 255));
@@ -258,6 +279,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblTotalBayar.setText("Total Bayar");
 
+        txtTotalBayar.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtTotalBayar.setEnabled(false);
 
         lblDibayar.setText("Dibayar");
@@ -270,6 +292,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblKembali.setText("Kembali");
 
+        txtKembali.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtKembali.setEnabled(false);
 
         javax.swing.GroupLayout panelBiayaLayout = new javax.swing.GroupLayout(panelBiaya);
@@ -309,6 +332,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblIDFaktur.setText("ID Sewa");
 
+        txtFaktur.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtFaktur.setEnabled(false);
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 255));
@@ -505,12 +529,17 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
     private void cbIDKendaraanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDKendaraanItemStateChanged
         rst = cdb.executeQuery("SELECT no_plat, merek, harga FROM tb_kendaraan WHERE id_kendaraan = '" + cbIDKendaraan.getSelectedItem() + "'");
+
         try {
             if (rst.next()) {
                 txtNopol.setText(rst.getString(1));
                 txtMerekKendaraan.setText(rst.getString(2));
-                biayaSewa = Integer.parseInt(rst.getString(3));
-                txtHargaSewa.setText(toRupiahFormat(rst.getString(3)));
+                biayaSewa = (rst.getInt(3));
+                txtHargaSewa.setText(ctr.toRupiahFormat(rst.getString(3)));
+            } else {
+                txtNopol.setText("");
+                txtMerekKendaraan.setText("");
+                txtHargaSewa.setText("");
             }
             rst.close();
         } catch (SQLException ex) {
@@ -518,16 +547,22 @@ public class FormPenyewaan extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_cbIDKendaraanItemStateChanged
 
-    private void rdMobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMobilMouseClicked
-        setComboBoxItem();
-    }//GEN-LAST:event_rdMobilMouseClicked
-
-    private void rdMotorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMotorMouseClicked
-        setComboBoxItem();
-    }//GEN-LAST:event_rdMotorMouseClicked
-
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        autokode();
+        setIDFaktur();
+        setComboKendaraan();
+        setComboMember();
+        cbIDMember.setSelectedIndex(0);
+        txtNamaMember.setText("");
+        cbIDKendaraan.setSelectedIndex(0);
+        txtMerekKendaraan.setText("");
+        txtNopol.setText("");
+        txtHargaSewa.setText("");
+        spLamaSewa.setValue(0);
+        txtTglSewa.setText("");
+        txtTglKembali.setText("");
+        txtTotalBayar.setText("");
+        txtDibayar.setText("");
+        txtKembali.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void cbIDMemberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDMemberItemStateChanged
@@ -535,6 +570,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
         try {
             if (rst.next()) {
                 txtNamaMember.setText(rst.getString(1));
+            } else {
+                txtNamaMember.setText("");
             }
             rst.close();
         } catch (SQLException ex) {
@@ -549,11 +586,11 @@ public class FormPenyewaan extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Pilih ID Member dan ID Kendaraan terlebih dahulu !");
             }
         } else {
-            txtTglSewa.setText(currentDate());
+            txtTglSewa.setText(ctr.currentDate());
             int lama = Integer.parseInt(spLamaSewa.getValue().toString());
-            txtTglKembali.setText(addDate(lama));
+            txtTglKembali.setText(ctr.addDate(lama));
             totalBiaya = Integer.parseInt(String.valueOf(lama * biayaSewa));
-            txtTotalBayar.setText(toRupiahFormat(String.valueOf(lama * biayaSewa)));
+            txtTotalBayar.setText(ctr.toRupiahFormat(String.valueOf(lama * biayaSewa)));
         }
     }//GEN-LAST:event_spLamaSewaStateChanged
 
@@ -561,7 +598,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         if (totalBiaya <= Integer.parseInt(txtDibayar.getText())) {
             int totalbayar = totalBiaya;
             int dibayar = Integer.parseInt(txtDibayar.getText());
-            txtKembali.setText(toRupiahFormat(String.valueOf(dibayar - totalbayar)));
+            txtKembali.setText(ctr.toRupiahFormat(String.valueOf(dibayar - totalbayar)));
         } else {
             JOptionPane.showMessageDialog(null, "Uang Pembayaran Kurang !");
             txtDibayar.setText("");
@@ -578,13 +615,22 @@ public class FormPenyewaan extends javax.swing.JPanel {
                     + "'" + txtTglSewa.getText() + "',"
                     + "'" + txtTglKembali.getText() + "',"
                     + "'" + totalBiaya + "')");
-            JOptionPane.showMessageDialog(null, "Data berhasil disimpan !");
+            cdb.executeUpdate("UPDATE tb_kendaraan SET status = 'Sewa' WHERE id_kendaraan = '"+cbIDKendaraan.getSelectedItem().toString()+"'");
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan ?");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
         viewTable();
-
+        btnClearActionPerformed(evt);
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void rdMobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMobilMouseClicked
+        setComboKendaraan();
+    }//GEN-LAST:event_rdMobilMouseClicked
+
+    private void rdMotorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMotorMouseClicked
+        setComboKendaraan();
+    }//GEN-LAST:event_rdMotorMouseClicked
     public String getSelectedButtonText(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
@@ -594,57 +640,6 @@ public class FormPenyewaan extends javax.swing.JPanel {
         }
         return null;
     }
-
-    private void autokode() {
-        try {
-            String sql = "SELECT COUNT(no_faktur) AS no FROM tb_penyewaan";
-            ResultSet rs = cdb.executeQuery(sql);
-            while (rs.next()) {
-                if (rs.getInt(1) == 0) {
-                    txtFaktur.setText("F00001");
-                } else {
-                    int auto = rs.getInt(1) + 1;
-                    String no = String.valueOf(auto);
-                    int noLong = no.length();
-                    for (int i = 0; i < 5 - noLong; i++) {
-                        no = "0" + no;
-                    }
-                    txtFaktur.setText("F" + no);
-                }
-            }
-
-            rs.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR: \n" + e.toString(),
-                    "Kesalahan", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    public String currentDate() {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Calendar cal = Calendar.getInstance();
-        return dateFormat.format(cal.getTime());
-    }
-
-    public String addDate(int q) {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, q);
-        return dateFormat.format(cal.getTime());
-    }
-
-    public String toRupiahFormat(String nominal) {
-        Locale locale = null;
-        NumberFormat rupiahFormat = null;
-        String rupiah = "Rp. ";
-        locale = new Locale("ca", "CA");
-        rupiahFormat = NumberFormat.getCurrencyInstance(locale);
-        rupiah = rupiah + rupiahFormat.format(Double.parseDouble(nominal)).substring(4);
-        return rupiah;
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnSave;

@@ -248,6 +248,7 @@ public class FormKendaraan extends javax.swing.JPanel {
         lblNopol.setText("Nomor Plat");
         add(lblNopol, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
+        txtID.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtID.setEnabled(false);
         add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 176, -1));
         add(txtNopol, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 176, -1));

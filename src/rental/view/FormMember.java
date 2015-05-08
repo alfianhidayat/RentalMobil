@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
 import rental.dbconnection.ConnectionDB;
+import rental.util.Controller;
 
 /**
  *
@@ -21,6 +22,7 @@ import rental.dbconnection.ConnectionDB;
 public class FormMember extends javax.swing.JPanel {
 
     ConnectionDB cdb = new ConnectionDB();
+    Controller ctr = new Controller();
     Statement stms = null;
     ResultSet rst = null;
 
@@ -34,7 +36,7 @@ public class FormMember extends javax.swing.JPanel {
         rdLakiLaki.setSelected(true);
         viewTable();
         txtSearch.setText("Search");
-        autokode();
+        setIDMember();
     }
 
     public void viewTable() {
@@ -42,7 +44,11 @@ public class FormMember extends javax.swing.JPanel {
         tableMember.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
     }
-
+    
+    public void setIDMember(){
+        String sql = "SELECT COUNT(id_member) AS no FROM tb_member";
+        txtIDMember.setText(ctr.autokode(sql, "C"));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -114,6 +120,7 @@ public class FormMember extends javax.swing.JPanel {
 
         lblNama.setText("Nama");
 
+        txtIDMember.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         txtIDMember.setEnabled(false);
 
         lblNoIdentitas.setText("No. Kartu Identitas");
@@ -343,7 +350,7 @@ public class FormMember extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchFocusLost
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        autokode();
+        setIDMember();
         txtNama.setText("");
         txtNoIdentitas.setText("");
         txtAlamat.setText("");
@@ -447,33 +454,7 @@ public class FormMember extends javax.swing.JPanel {
         return null;
     }
 
-    private void autokode() {
-        try {
-            String sql = "SELECT COUNT(id_member) AS no FROM tb_member";
-            ResultSet rs = cdb.executeQuery(sql);
-            while (rs.next()) {
-                if (rs.getInt(1) == 0) {
-                    System.out.println("C00001");
-                    txtIDMember.setText("C00001");
-                } else {
-                    int auto = rs.getInt(1) + 1;
-                    String no = String.valueOf(auto);
-                    int noLong = no.length();
-                    for (int i = 0; i < 5 - noLong; i++) {
-                        no = "0" + no;
-                    }
-                    System.out.println("C" + no);
-                    txtIDMember.setText("C" + no);
-                }
-            }
-
-            rs.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "ERROR: \n" + e.toString(),
-                    "Kesalahan", JOptionPane.WARNING_MESSAGE);
-        }
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
