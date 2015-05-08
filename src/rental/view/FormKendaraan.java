@@ -336,21 +336,18 @@ public class FormKendaraan extends javax.swing.JPanel {
     }//GEN-LAST:event_tableKendaraanMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (!txtID.getText().equals("")) {
-            cdb.executeUpdate("INSERT INTO tb_kendaraan values "
-                    + "('" + txtID.getText() + "',"
-                    + "'" + txtNopol.getText() + "',"
-                    + "'" + txtMerek.getText() + "',"
-                    + "'" + txtWarna.getText() + "',"
-                    + "'" + txtHarga.getText() + "',"
-                    + "'" + cbTahun.getSelectedItem().toString() + "',"
-                    + "'" + getSelectedButtonText(rdGroupJenis) + "',"
-                    + "'" + getSelectedButtonText(rdGroupKondisi) + "',"
-                    + "'" + getSelectedButtonText(rdGroupStatus) + "')");
-            JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
-        } else {
-            JOptionPane.showMessageDialog(null, "ID Kendaraan tidak boleh kosong !");
-        }
+        cdb.executeUpdate("INSERT INTO tb_kendaraan values "
+                + "('" + txtID.getText() + "',"
+                + "'" + txtNopol.getText() + "',"
+                + "'" + txtMerek.getText() + "',"
+                + "'" + txtWarna.getText() + "',"
+                + "'" + txtHarga.getText() + "',"
+                + "'" + cbTahun.getSelectedItem().toString() + "',"
+                + "'" + getSelectedButtonText(rdGroupJenis) + "',"
+                + "'" + getSelectedButtonText(rdGroupKondisi) + "',"
+                + "'" + getSelectedButtonText(rdGroupStatus) + "')");
+
+        JOptionPane.showMessageDialog(null, "Data Berhasil ditambahkan !");
         viewTable();
     }//GEN-LAST:event_btnAddActionPerformed
 

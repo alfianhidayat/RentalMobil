@@ -423,18 +423,14 @@ public class FormMember extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            if (!txtIDMember.getText().equals("")) {
-                cdb.executeUpdate("INSERT INTO tb_member values "
-                        + "('" + txtIDMember.getText() + "',"
-                        + "'" + txtNama.getText() + "',"
-                        + "'" + txtNoIdentitas.getText() + "',"
-                        + "'" + txtAlamat.getText() + "',"
-                        + "'" + txtNomorHP.getText() + "',"
-                        + "'" + getSelectedButtonText(buttonGroup1) + "')");
-                JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
-            } else {
-                JOptionPane.showMessageDialog(null, "ID Member tidak boleh kosong !");
-            }
+            cdb.executeUpdate("INSERT INTO tb_member values "
+                    + "('" + txtIDMember.getText() + "',"
+                    + "'" + txtNama.getText() + "',"
+                    + "'" + txtNoIdentitas.getText() + "',"
+                    + "'" + txtAlamat.getText() + "',"
+                    + "'" + txtNomorHP.getText() + "',"
+                    + "'" + getSelectedButtonText(buttonGroup1) + "')");
+            JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }

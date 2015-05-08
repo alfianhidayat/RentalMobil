@@ -24,6 +24,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    
     public Main() {
         setTitle("Aplikasi Elektronik Rental");
         initComponents();

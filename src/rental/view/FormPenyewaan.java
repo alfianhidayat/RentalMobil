@@ -9,9 +9,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
@@ -31,6 +33,9 @@ public class FormPenyewaan extends javax.swing.JPanel {
     ConnectionDB cdb = new ConnectionDB();
     Statement stms = null;
     ResultSet rst = null;
+    int biayaSewa = 0;
+    int totalBiaya = 0;
+    int kembalian = 0;
 
     /**
      * Creates new form FormLogin
@@ -70,11 +75,14 @@ public class FormPenyewaan extends javax.swing.JPanel {
     public void viewTable() {
 
         try {
-            rst = cdb.executeQuery("SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali FROM tb_penyewaan as p, tb_member as m, tb_kendaraan as k "
+            rst = cdb.executeQuery("SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali, p.total_bayar FROM tb_penyewaan as p, tb_member as m, tb_kendaraan as k "
                     + "where k.id_kendaraan = p.id_kendaraan and m.id_member = p.id_member "
                     + "ORDER BY no_faktur ASC");
             tablePenyewaan.setModel(DbUtils.resultSetToTableModel(rst));
-            ((DefaultTableModel) tablePenyewaan.getModel()).setColumnIdentifiers(new Object[]{"Nomor Faktur", "Nama Member", "Merek Kendaraan", "Warna", "Tgl Sewa", "Tgl Kembali"});
+            ((DefaultTableModel) tablePenyewaan.getModel()).setColumnIdentifiers(new Object[]{"Nomor Faktur", "Nama Member", "Merek Kendaraan", "Tgl Sewa", "Tgl Kembali", "Total Bayar"});
+            if(rst.next()){
+                System.out.println(rst.getInt(7)+8);
+            }
             rst.close();
         } catch (SQLException ex) {
             Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
@@ -151,6 +159,11 @@ public class FormPenyewaan extends javax.swing.JPanel {
         });
 
         btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
 
         tablePenyewaan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -249,7 +262,6 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
         lblDibayar.setText("Dibayar");
 
-        txtDibayar.setText("0");
         txtDibayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDibayarActionPerformed(evt);
@@ -497,7 +509,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
             if (rst.next()) {
                 txtNopol.setText(rst.getString(1));
                 txtMerekKendaraan.setText(rst.getString(2));
-                txtHargaSewa.setText(rst.getString(3));
+                biayaSewa = Integer.parseInt(rst.getString(3));
+                txtHargaSewa.setText(toRupiahFormat(rst.getString(3)));
             }
             rst.close();
         } catch (SQLException ex) {
@@ -538,17 +551,40 @@ public class FormPenyewaan extends javax.swing.JPanel {
         } else {
             txtTglSewa.setText(currentDate());
             int lama = Integer.parseInt(spLamaSewa.getValue().toString());
-            int harga = Integer.parseInt(txtHargaSewa.getText());
             txtTglKembali.setText(addDate(lama));
-            txtTotalBayar.setText(String.valueOf(lama * harga));
+            totalBiaya = Integer.parseInt(String.valueOf(lama * biayaSewa));
+            txtTotalBayar.setText(toRupiahFormat(String.valueOf(lama * biayaSewa)));
         }
     }//GEN-LAST:event_spLamaSewaStateChanged
 
     private void txtDibayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDibayarActionPerformed
-        int totalbayar = Integer.parseInt(txtTotalBayar.getText());
-        int dibayar = Integer.parseInt(txtDibayar.getText());
-        txtKembali.setText(String.valueOf(dibayar-totalbayar));
+        if (totalBiaya <= Integer.parseInt(txtDibayar.getText())) {
+            int totalbayar = totalBiaya;
+            int dibayar = Integer.parseInt(txtDibayar.getText());
+            txtKembali.setText(toRupiahFormat(String.valueOf(dibayar - totalbayar)));
+        } else {
+            JOptionPane.showMessageDialog(null, "Uang Pembayaran Kurang !");
+            txtDibayar.setText("");
+        }
     }//GEN-LAST:event_txtDibayarActionPerformed
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        try {
+            cdb.executeUpdate("INSERT INTO tb_penyewaan values"
+                    + "('" + txtFaktur.getText() + "',"
+                    + "'" + cbIDMember.getSelectedItem() + "',"
+                    + "'" + cbIDKendaraan.getSelectedItem() + "',"
+                    + "'" + spLamaSewa.getValue().toString() + "',"
+                    + "'" + txtTglSewa.getText() + "',"
+                    + "'" + txtTglKembali.getText() + "',"
+                    + "'" + totalBiaya + "')");
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan !");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        viewTable();
+
+    }//GEN-LAST:event_btnSaveActionPerformed
     public String getSelectedButtonText(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
@@ -596,6 +632,16 @@ public class FormPenyewaan extends javax.swing.JPanel {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, q);
         return dateFormat.format(cal.getTime());
+    }
+
+    public String toRupiahFormat(String nominal) {
+        Locale locale = null;
+        NumberFormat rupiahFormat = null;
+        String rupiah = "Rp. ";
+        locale = new Locale("ca", "CA");
+        rupiahFormat = NumberFormat.getCurrencyInstance(locale);
+        rupiah = rupiah + rupiahFormat.format(Double.parseDouble(nominal)).substring(4);
+        return rupiah;
     }
 
 
