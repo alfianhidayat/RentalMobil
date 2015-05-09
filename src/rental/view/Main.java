@@ -68,15 +68,12 @@ public class Main extends javax.swing.JFrame {
         menuFormPengembalian = new javax.swing.JMenuItem();
         menuFormPenyewaan = new javax.swing.JMenuItem();
         sparatorMenuForm = new javax.swing.JPopupMenu.Separator();
-        menuLogOut = new javax.swing.JMenuItem();
         menuExit = new javax.swing.JMenuItem();
-        menuLaporan = new javax.swing.JMenu();
-        menuLapPeminjaman = new javax.swing.JMenuItem();
-        menuLapPengembalian = new javax.swing.JMenuItem();
         menuHelp = new javax.swing.JMenu();
         menuAkun = new javax.swing.JMenuItem();
         menuGantiPass = new javax.swing.JMenuItem();
         sparatorMenuHelp = new javax.swing.JPopupMenu.Separator();
+        menuLogOut = new javax.swing.JMenuItem();
         menuAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -128,15 +125,6 @@ public class Main extends javax.swing.JFrame {
         menuForm.add(menuFormPenyewaan);
         menuForm.add(sparatorMenuForm);
 
-        menuLogOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        menuLogOut.setText("Log Out");
-        menuLogOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuLogOutActionPerformed(evt);
-            }
-        });
-        menuForm.add(menuLogOut);
-
         menuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         menuExit.setText("Exit");
         menuExit.addActionListener(new java.awt.event.ActionListener() {
@@ -147,18 +135,6 @@ public class Main extends javax.swing.JFrame {
         menuForm.add(menuExit);
 
         menuBar.add(menuForm);
-
-        menuLaporan.setText("Laporan");
-
-        menuLapPeminjaman.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.SHIFT_MASK));
-        menuLapPeminjaman.setText("Laporan Peminjaman");
-        menuLaporan.add(menuLapPeminjaman);
-
-        menuLapPengembalian.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.SHIFT_MASK));
-        menuLapPengembalian.setText("Laporan Pengembalian");
-        menuLaporan.add(menuLapPengembalian);
-
-        menuBar.add(menuLaporan);
 
         menuHelp.setText("Help");
 
@@ -180,6 +156,15 @@ public class Main extends javax.swing.JFrame {
         });
         menuHelp.add(menuGantiPass);
         menuHelp.add(sparatorMenuHelp);
+
+        menuLogOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        menuLogOut.setText("Log Out");
+        menuLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuLogOutActionPerformed(evt);
+            }
+        });
+        menuHelp.add(menuLogOut);
 
         menuAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         menuAbout.setText("About");
@@ -300,9 +285,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuFormPenyewaan;
     private javax.swing.JMenuItem menuGantiPass;
     private javax.swing.JMenu menuHelp;
-    private javax.swing.JMenuItem menuLapPeminjaman;
-    private javax.swing.JMenuItem menuLapPengembalian;
-    private javax.swing.JMenu menuLaporan;
     private javax.swing.JMenuItem menuLogOut;
     private javax.swing.JMenuItem meuFormMember;
     private javax.swing.JPopupMenu.Separator sparatorMenuForm;

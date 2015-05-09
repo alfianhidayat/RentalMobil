@@ -53,5 +53,9 @@ public class ConnectionDB {
         }
         return stm;
     }
+    public PreparedStatement updateStmt(String query) throws SQLException{
+        PreparedStatement update = conn.prepareStatement(query);
+        return update;
+    }
 
 }
