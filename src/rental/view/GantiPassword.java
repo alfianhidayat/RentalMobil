@@ -13,13 +13,13 @@ import javax.swing.JOptionPane;
  */
 public class GantiPassword extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FormLogin
-     */
+    FormLogin fl = new FormLogin();
+    
     public GantiPassword() {
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
+        lblAkun.setText(fl.akun.toString());
     }
 
     /**
@@ -82,6 +82,7 @@ public class GantiPassword extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
         jLabel1.setText("Ganti Password");
 
+        lblAkun.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         lblAkun.setText("Akun");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

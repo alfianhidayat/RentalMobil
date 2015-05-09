@@ -8,14 +8,7 @@ package rental.view;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Enumeration;
-import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
@@ -55,7 +48,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         setIDFaktur();
     }
 
-    public void setIDFaktur() {
+    private void setIDFaktur() {
         String query = "SELECT COUNT(no_faktur)as no FROM tb_penyewaan";
         txtFaktur.setText(ctr.autokode(query, "F"));
     }
@@ -88,7 +81,6 @@ public class FormPenyewaan extends javax.swing.JPanel {
     }
 
     public void viewTable() {
-
         try {
             rst = cdb.executeQuery("SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali, p.total_bayar FROM tb_penyewaan as p, tb_member as m, tb_kendaraan as k "
                     + "where k.id_kendaraan = p.id_kendaraan and m.id_member = p.id_member "
@@ -100,9 +92,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
             }
             rst.close();
         } catch (SQLException ex) {
-            Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-
     }
 
     /**
@@ -529,7 +520,6 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
     private void cbIDKendaraanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDKendaraanItemStateChanged
         rst = cdb.executeQuery("SELECT no_plat, merek, harga FROM tb_kendaraan WHERE id_kendaraan = '" + cbIDKendaraan.getSelectedItem() + "'");
-
         try {
             if (rst.next()) {
                 txtNopol.setText(rst.getString(1));
@@ -543,7 +533,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
             }
             rst.close();
         } catch (SQLException ex) {
-            Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_cbIDKendaraanItemStateChanged
 
@@ -575,7 +565,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
             }
             rst.close();
         } catch (SQLException ex) {
-            Logger.getLogger(FormPenyewaan.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_cbIDMemberItemStateChanged
 

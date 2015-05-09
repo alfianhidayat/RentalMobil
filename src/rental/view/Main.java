@@ -6,9 +6,7 @@
 package rental.view;
 
 import java.awt.*;
-import java.sql.ResultSet;
 import javax.swing.*;
-import rental.dbconnection.ConnectionDB;
 
 /**
  *

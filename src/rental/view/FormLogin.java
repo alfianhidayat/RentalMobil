@@ -17,9 +17,8 @@ import java.util.logging.Logger;
  */
 public class FormLogin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FormLogin
-     */
+    public static String akun = ""; 
+    
     public FormLogin() {
         initComponents();
         setLocationRelativeTo(null);
@@ -193,6 +192,7 @@ public class FormLogin extends javax.swing.JFrame {
                 String user = rst.getString(1);
                 String pass = rst.getString(2);
                 if (txtUsername.getText().equals(user) && txtPass.getText().equals(pass)) {
+                    akun = txtUsername.getText();
                     dispose();
                     new Main().setVisible(true);
                 } else if (txtUsername.getText().equals("")) {
