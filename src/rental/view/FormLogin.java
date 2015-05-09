@@ -6,7 +6,7 @@
 package rental.view;
 
 import javax.swing.JOptionPane;
-import rental.dbconnection.ConnectionDB;
+import rental.database.ConnectionDB;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,12 +51,6 @@ public class FormLogin extends javax.swing.JFrame {
         lblPass.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         lblPass.setText("Password");
 
-        txtPass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPassActionPerformed(evt);
-            }
-        });
-
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,20 +60,6 @@ public class FormLogin extends javax.swing.JFrame {
 
         lblUsername.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         lblUsername.setText("Username");
-
-        txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtUsernameFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                txtUsernameFocusLost(evt);
-            }
-        });
-        txtUsername.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsernameActionPerformed(evt);
-            }
-        });
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
 
@@ -167,22 +147,6 @@ public class FormLogin extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtUsernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusGained
-
-    }//GEN-LAST:event_txtUsernameFocusGained
-
-    private void txtUsernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtUsernameFocusLost
-
-    }//GEN-LAST:event_txtUsernameFocusLost
-
-    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
-        btnLoginActionPerformed(evt);
-    }//GEN-LAST:event_txtUsernameActionPerformed
-
-    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
-        btnLoginActionPerformed(evt);
-    }//GEN-LAST:event_txtPassActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         ConnectionDB cdb = new ConnectionDB();

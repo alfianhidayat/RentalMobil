@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
-import rental.dbconnection.ConnectionDB;
+import rental.database.ConnectionDB;
 import rental.util.Controller;
 
 /**
@@ -38,7 +38,7 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     private void setIDKembali() {
         String query = "SELECT COUNT(id_kembali) as no FROM tb_kembali";
-        txtIDKembali.setText(ctr.autokode(query, "K"));
+//        txtIDKembali.setText(ctr.autoKode(query, "K"));
     }
 
     private void setNull() {

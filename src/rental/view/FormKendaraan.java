@@ -5,20 +5,26 @@
  */
 package rental.view;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
-import rental.dbconnection.ConnectionDB;
+import rental.database.ConnectionDB;
+import rental.database.Query;
+import rental.util.Controller;
 
 public class FormKendaraan extends javax.swing.JPanel {
 
     ConnectionDB cdb = new ConnectionDB();
+    Query Query = new Query();
+    Controller ctr = new Controller();
+    PreparedStatement preStmt = null;
     Statement stms = null;
     ResultSet rst = null;
 
@@ -38,13 +44,17 @@ public class FormKendaraan extends javax.swing.JPanel {
         rdTersedia.setSelected(true);
         txtSearch.setText("Search");
         viewTable();
-        autokode();
+        setIDKendaraan();
     }
 
     public void viewTable() {
-        rst = cdb.executeQuery("SELECT * FROM tb_kendaraan ORDER BY id_kendaraan ASC");
+        rst = cdb.executeQuery(Query.SELECT_KENDARAAN_QUERY);
         tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
+    }
+
+    public void setIDKendaraan() {
+        txtID.setText(ctr.autoKode(Query.SELECT_COUNT_KENDARAAN_QUERY, "K"));
     }
 
     /**
@@ -293,16 +303,20 @@ public class FormKendaraan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchFocusGained
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        rst = cdb.executeQuery("SELECT * FROM tb_kendaraan "
-                + "where id_kendaraan LIKE '%" + txtSearch.getText() + "%' or "
-                + "no_plat LIKE '%" + txtSearch.getText() + "%' or "
-                + "merek LIKE '%" + txtSearch.getText() + "%' or "
-                + "warna LIKE '%" + txtSearch.getText() + "%' or "
-                + "tahun LIKE '%" + txtSearch.getText() + "%' or "
-                + "jenis LIKE '%" + txtSearch.getText() + "%' or "
-                + "kondisi LIKE '%" + txtSearch.getText() + "%' or "
-                + "status LIKE '%" + txtSearch.getText() + "%' "
-                + "ORDER BY id_kendaraan ASC");
+        try {
+            preStmt = cdb.updateStmt(Query.SELECT_LIKE_KENDARAAN_QUERY);
+            preStmt.setString(1, "%" + txtSearch.getText() + "%");
+            preStmt.setString(2, "%" + txtSearch.getText() + "%");
+            preStmt.setString(3, "%" + txtSearch.getText() + "%");
+            preStmt.setString(4, "%" + txtSearch.getText() + "%");
+            preStmt.setString(5, "%" + txtSearch.getText() + "%");
+            preStmt.setString(6, "%" + txtSearch.getText() + "%");
+            preStmt.setString(7, "%" + txtSearch.getText() + "%");
+            preStmt.setString(8, "%" + txtSearch.getText() + "%");
+            rst = preStmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
     }//GEN-LAST:event_txtSearchActionPerformed
@@ -337,16 +351,21 @@ public class FormKendaraan extends javax.swing.JPanel {
     }//GEN-LAST:event_tableKendaraanMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        cdb.executeUpdate("INSERT INTO tb_kendaraan values "
-                + "('" + txtID.getText() + "',"
-                + "'" + txtNopol.getText() + "',"
-                + "'" + txtMerek.getText() + "',"
-                + "'" + txtWarna.getText() + "',"
-                + "'" + txtHarga.getText() + "',"
-                + "'" + cbTahun.getSelectedItem().toString() + "',"
-                + "'" + getSelectedButtonText(rdGroupJenis) + "',"
-                + "'" + getSelectedButtonText(rdGroupKondisi) + "',"
-                + "'" + getSelectedButtonText(rdGroupStatus) + "')");
+        try {
+            preStmt = cdb.updateStmt(Query.INSERT_KENDARAAN_QUERY);
+            preStmt.setString(1, txtID.getText());
+            preStmt.setString(2, txtNopol.getText());
+            preStmt.setString(3, txtMerek.getText());
+            preStmt.setString(4, txtWarna.getText());
+            preStmt.setString(5, txtHarga.getText());
+            preStmt.setString(6, cbTahun.getSelectedItem().toString());
+            preStmt.setString(7, getSelectedButtonText(rdGroupJenis));
+            preStmt.setString(8, getSelectedButtonText(rdGroupKondisi));
+            preStmt.setString(9, getSelectedButtonText(rdGroupStatus));
+            preStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         JOptionPane.showMessageDialog(null, "Data Berhasil ditambahkan !");
         viewTable();
@@ -361,16 +380,17 @@ public class FormKendaraan extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Pilih data Member !!");
                 }
             } else {
-                cdb.executeUpdate("UPDATE tb_kendaraan SET "
-                        + "no_plat = '" + txtNopol.getText() + "', "
-                        + "merek = '" + txtMerek.getText() + "', "
-                        + "warna = '" + txtWarna.getText() + "', "
-                        + "harga = '" + txtHarga.getText() + "', "
-                        + "tahun = '" + cbTahun.getSelectedItem().toString() + "', "
-                        + "jenis = '" + getSelectedButtonText(rdGroupJenis) + "', "
-                        + "kondisi = '" + getSelectedButtonText(rdGroupKondisi) + "', "
-                        + "status = '" + getSelectedButtonText(rdGroupStatus) + "' "
-                        + "WHERE id_kendaraan = '" + txtID.getText() + "'");
+                preStmt = cdb.updateStmt(Query.UPDATE_KENDARAAN_QUERY);
+                preStmt.setString(1, txtNopol.getText());
+                preStmt.setString(2, txtMerek.getText());
+                preStmt.setString(3, txtWarna.getText());
+                preStmt.setString(4, txtHarga.getText());
+                preStmt.setString(5, cbTahun.getSelectedItem().toString());
+                preStmt.setString(6, getSelectedButtonText(rdGroupJenis));
+                preStmt.setString(7, getSelectedButtonText(rdGroupKondisi));
+                preStmt.setString(8, getSelectedButtonText(rdGroupStatus));
+                preStmt.setString(9, txtID.getText());
+                preStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
             }
         } catch (Exception e) {
@@ -380,7 +400,7 @@ public class FormKendaraan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        autokode();
+        setIDKendaraan();
         txtMerek.setText("");
         txtNopol.setText("");
         txtHarga.setText("");
@@ -396,7 +416,9 @@ public class FormKendaraan extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Pilih data Kendaraan !!");
                 }
             } else {
-                cdb.executeUpdate("DELETE FROM tb_kendaraan where id_kendaraan='" + txtID.getText() + "'");
+                preStmt = cdb.updateStmt(Query.DELETE_KENDARAAN_QUERY);
+                preStmt.setString(1, txtID.getText());
+                preStmt.executeUpdate();
                 viewTable();
                 JOptionPane.showMessageDialog(null, "Data berhasil dihapus !");
             }
@@ -415,31 +437,6 @@ public class FormKendaraan extends javax.swing.JPanel {
             }
         }
         return null;
-    }
-
-    private void autokode() {
-        try {
-            String sql = "SELECT COUNT(id_kendaraan) AS no FROM tb_kendaraan";
-            ResultSet rs = cdb.executeQuery(sql);
-            while (rs.next()) {
-                if (rs.getInt(1) == 0) {
-                    txtID.setText("K00001");
-                } else {
-                    int auto = rs.getInt(1) + 1;
-                    String no = String.valueOf(auto);
-                    int noLong = no.length();
-                    for (int i = 0; i < 5 - noLong; i++) {
-                        no = "0" + no;
-                    }
-                    txtID.setText("K" + no);
-                }
-            }
-
-            rs.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "ERROR: \n" + e.toString(),
-                    "Kesalahan", JOptionPane.WARNING_MESSAGE);
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

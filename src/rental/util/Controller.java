@@ -5,14 +5,17 @@
  */
 package rental.util;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.JOptionPane;
-import rental.dbconnection.ConnectionDB;
+import rental.database.ConnectionDB;
+import rental.database.Query;
 
 /**
  *
@@ -21,8 +24,9 @@ import rental.dbconnection.ConnectionDB;
 public class Controller {
 
     ConnectionDB cdb = new ConnectionDB();
+    Query query = new Query();
 
-    public String autokode(String query, String kd) {
+    public String autoKode(String query, String kd) {
         String kode = "";
         try {
             ResultSet rs = cdb.executeQuery(query);

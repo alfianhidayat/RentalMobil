@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package rental.dbconnection;
+package rental.database;
 
 /**
  *
@@ -13,6 +13,8 @@ import java.sql.*;
 
 public class ConnectionDB {
 
+    static final String JDBC_DRIVER = "org.sqlite.JDBC";
+    static final String DB_URL = "jdbc:sqlite:rental.sqlite";
     public Connection conn = null;
     public Statement stm = null;
     public ResultSet rst = null;
@@ -23,8 +25,8 @@ public class ConnectionDB {
 
     public ConnectionDB() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:rental.sqlite");
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL);
 //            System.out.println("Connection Success");
         } catch (Exception e) {
             System.err.print(e.getMessage());
@@ -53,8 +55,14 @@ public class ConnectionDB {
         }
         return stm;
     }
-    public PreparedStatement updateStmt(String query) throws SQLException{
-        PreparedStatement update = conn.prepareStatement(query);
+
+    public PreparedStatement updateStmt(String query) {
+        PreparedStatement update = null;
+        try {
+            update = conn.prepareStatement(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return update;
     }
 

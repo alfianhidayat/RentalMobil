@@ -15,7 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
-import rental.dbconnection.ConnectionDB;
+import rental.database.ConnectionDB;
+import rental.database.Query;
 import rental.util.Controller;
 
 /**
@@ -25,6 +26,7 @@ import rental.util.Controller;
 public class FormPenyewaan extends javax.swing.JPanel {
 
     ConnectionDB cdb = new ConnectionDB();
+    Query Query = new Query();
     Controller ctr = new Controller();
     Statement stms = null;
     ResultSet rst = null;
@@ -49,8 +51,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
     }
 
     private void setIDFaktur() {
-        String query = "SELECT COUNT(no_faktur)as no FROM tb_penyewaan";
-        txtFaktur.setText(ctr.autokode(query, "F"));
+        String query = Query.SELECT_COUNT_PENYEWAAN_QUERY;
+        txtFaktur.setText(ctr.autoKode(query, "F"));
     }
 
     public void setComboKendaraan() {

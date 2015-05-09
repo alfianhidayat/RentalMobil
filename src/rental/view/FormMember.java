@@ -12,7 +12,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
-import rental.dbconnection.ConnectionDB;
+import rental.database.ConnectionDB;
+import rental.database.Query;
 import rental.util.Controller;
 
 /**
@@ -23,6 +24,8 @@ public class FormMember extends javax.swing.JPanel {
 
     ConnectionDB cdb = new ConnectionDB();
     Controller ctr = new Controller();
+    Query Query = new Query();
+    PreparedStatement preStmt = null;
     Statement stms = null;
     ResultSet rst = null;
 
@@ -40,15 +43,15 @@ public class FormMember extends javax.swing.JPanel {
     }
 
     public void viewTable() {
-        rst = cdb.executeQuery("SELECT * FROM tb_member ORDER BY id_member ASC");
+        rst = cdb.executeQuery(Query.SELECT_MEMBER_QUERY);
         tableMember.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
     }
-    
-    public void setIDMember(){
-        String sql = "SELECT COUNT(id_member) AS no FROM tb_member";
-        txtIDMember.setText(ctr.autokode(sql, "C"));
+
+    public void setIDMember() {
+        txtIDMember.setText(ctr.autoKode(Query.SELECT_COUNT_MEMBER_QUERY, "M"));
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -373,14 +376,14 @@ public class FormMember extends javax.swing.JPanel {
     }//GEN-LAST:event_tableMemberMouseClicked
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        rst = cdb.executeQuery("SELECT * FROM tb_member "
-                + "where id_member LIKE '%" + txtSearch.getText() + "%' or "
-                + "nama LIKE '%" + txtSearch.getText() + "%' or "
-                + "noktp LIKE '%" + txtSearch.getText() + "%' or "
-                + "alamat LIKE '%" + txtSearch.getText() + "%' or "
-                + "nohp LIKE '%" + txtSearch.getText() + "%' or "
-                + "jeniskelamin LIKE '%" + txtSearch.getText() + "%' "
-                + "ORDER BY id_member ASC");
+        preStmt = cdb.updateStmt(Query.SELECT_LIKE_MEMBER_QUERY);
+        try {
+            preStmt.setString(1, "%" + txtSearch.getText() + "%");
+            preStmt.setString(2, "%" + txtSearch.getText() + "%");
+            rst = preStmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         tableMember.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
     }//GEN-LAST:event_txtSearchActionPerformed
@@ -394,16 +397,16 @@ public class FormMember extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Pilih data Member !!");
                 }
             } else {
-                cdb.executeUpdate("UPDATE tb_member SET "
-                        + "nama = '" + txtNama.getText() + "', "
-                        + "noktp = '" + txtNoIdentitas.getText() + "', "
-                        + "alamat = '" + txtAlamat.getText() + "', "
-                        + "nohp = '" + txtNomorHP.getText() + "', "
-                        + "jeniskelamin = '" + getSelectedButtonText(buttonGroup1) + "' "
-                        + "WHERE id_member = '" + txtIDMember.getText() + "'");
+                preStmt = cdb.updateStmt(Query.UPDATE_MEMBER_QUERY);
+                preStmt.setString(1, txtNama.getText());
+                preStmt.setString(2, txtNoIdentitas.getText());
+                preStmt.setString(3, txtAlamat.getText());
+                preStmt.setString(4, txtNomorHP.getText());
+                preStmt.setString(5, getSelectedButtonText(buttonGroup1));
+                preStmt.setString(6, txtIDMember.getText());
+                preStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Data Gagal di Update !");
         }
@@ -419,7 +422,9 @@ public class FormMember extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(null, "Pilih data Member !!");
                 }
             } else {
-                cdb.executeUpdate("DELETE FROM tb_member where id_member='" + txtIDMember.getText() + "'");
+                preStmt = cdb.updateStmt(Query.DELETE_MEMBER_QUERY);
+                preStmt.setString(1, txtIDMember.getText());
+                preStmt.executeUpdate();
                 viewTable();
                 JOptionPane.showMessageDialog(null, "Data berhasil dihapus !");
             }
@@ -430,13 +435,14 @@ public class FormMember extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            cdb.executeUpdate("INSERT INTO tb_member values "
-                    + "('" + txtIDMember.getText() + "',"
-                    + "'" + txtNama.getText() + "',"
-                    + "'" + txtNoIdentitas.getText() + "',"
-                    + "'" + txtAlamat.getText() + "',"
-                    + "'" + txtNomorHP.getText() + "',"
-                    + "'" + getSelectedButtonText(buttonGroup1) + "')");
+            preStmt = cdb.updateStmt(Query.INSERT_MEMBER_QUERY);
+            preStmt.setString(1, txtIDMember.getText());
+            preStmt.setString(2, txtNama.getText());
+            preStmt.setString(3, txtNoIdentitas.getText());
+            preStmt.setString(4, txtAlamat.getText());
+            preStmt.setString(5, txtNomorHP.getText());
+            preStmt.setString(6, getSelectedButtonText(buttonGroup1));
+            preStmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -454,7 +460,6 @@ public class FormMember extends javax.swing.JPanel {
         return null;
     }
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

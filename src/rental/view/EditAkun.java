@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import rental.dbconnection.ConnectionDB;
-import rental.dbconnection.Query;
+import rental.database.ConnectionDB;
+import rental.database.Query;
 
 /**
  *
