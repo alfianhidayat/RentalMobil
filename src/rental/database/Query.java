@@ -21,13 +21,13 @@ public class Query {
     public final String DELETE_MEMBER_QUERY = "UPDATE tb_member SET status = 0 WHERE id_member=?;";
     public final String INSERT_MEMBER_QUERY = "INSERT INTO tb_member VALUES (?,?,?,?,?,?,1);";
 
-    public final String SELECT_KENDARAAN_QUERY = "SELECT * FROM tb_kendaraan WHERE ket = 1 ORDER BY id_kendaraan ASC;";
+    public final String SELECT_KENDARAAN_QUERY = "SELECT * FROM tb_kendaraan WHERE id_kendaraan LIKE ? AND ket = 1 ORDER BY id_kendaraan ASC;";
     public final String SELECT_COUNT_KENDARAAN_QUERY = "SELECT COUNT(id_kendaraan) AS no FROM tb_kendaraan;";
     public final String SELECT_LIKE_KENDARAAN_QUERY = "SELECT * FROM tb_kendaraan WHERE id_kendaraan LIKE ? OR no_plat LIKE ? OR merek LIKE ? OR warna LIKE ? OR tahun LIKE ? OR jenis LIKE ? OR kondisi LIKE ? OR status LIKE ? AND ket = 1 ORDER BY id_kendaraan ASC;";
     public final String INSERT_KENDARAAN_QUERY = "INSERT INTO tb_kendaraan VALUES (?,?,?,?,?,?,?,?,?,1);";
     public final String UPDATE_KENDARAAN_QUERY = "UPDATE tb_kendaraan SET no_plat = ? merek = ? warna = ? harga = ? tahun = ? jenis = ? kondisi = ? status = ? WHERE  id_kendaraan = ?; ";
     public final String DELETE_KENDARAAN_QUERY = "UPDATE tb_kendaraan SET ket = 0 WHERE id_kendaraan=?;";
-
+    
     public final String SELECT_COUNT_PENYEWAAN_QUERY = "SELECT COUNT(no_faktur)as no FROM tb_penyewaan;";
     public final String SELECT_KENDARAAN_AVAILABLE_QUERY = "SELECT id_kendaraan FROM tb_kendaraan WHERE status = 'Tersedia' AND kondisi = 'Baik' AND jenis = ? AND ket = 1;";
     public final String SELECT_PENYEWAAN_JOIN_QUERY = "SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kemabli, p.total_bayar FROM tb_penyewaan AS p, tb_member AS m, tb_member AS m, tb_kendaraan AS k WHERE k.id_kendaraan = p.id_kendaraan AND m.id_kendaraan = p.id_member";

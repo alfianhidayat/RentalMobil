@@ -48,7 +48,13 @@ public class FormKendaraan extends javax.swing.JPanel {
     }
 
     public void viewTable() {
-        rst = cdb.executeQuery(Query.SELECT_KENDARAAN_QUERY);
+        preStmt = cdb.updateStmt(Query.SELECT_KENDARAAN_QUERY);
+        try {
+            preStmt.setString(1, "%");
+            rst = preStmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
     }
