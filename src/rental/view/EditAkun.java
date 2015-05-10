@@ -7,8 +7,6 @@ package rental.view;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import rental.database.ConnectionDB;
 import rental.database.Query;
@@ -20,7 +18,7 @@ import rental.database.Query;
 public class EditAkun extends javax.swing.JFrame {
 
     ConnectionDB cdb = new ConnectionDB();
-    Query query = new Query();
+    Query Query = new Query();
     PreparedStatement prStmt = null;
 
     /**
@@ -171,7 +169,7 @@ public class EditAkun extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            prStmt = cdb.updateStmt(query.INSERT_USER_QUERY);
+            prStmt = cdb.updateStmt(Query.INSERT_USER_QUERY);
             prStmt.setString(1, txtUser.getText().toString());
             prStmt.setString(2, txtPass.getText().toString());
             prStmt.executeUpdate();
@@ -183,13 +181,13 @@ public class EditAkun extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
-            prStmt = cdb.updateStmt(query.DELETE_USER_QUERY);
+            prStmt = cdb.updateStmt(Query.DELETE_USER_QUERY);
             prStmt.setString(1, txtUser.getText().toString());
             prStmt.setString(2, txtPass.getText().toString());
             prStmt.executeUpdate();
             JOptionPane.showMessageDialog(rootPane, "Akun Berhasil dihapus");
         } catch (SQLException ex) {
-            Logger.getLogger(EditAkun.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 

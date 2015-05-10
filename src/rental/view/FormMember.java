@@ -37,9 +37,9 @@ public class FormMember extends javax.swing.JPanel {
         buttonGroup1.add(rdLakiLaki);
         buttonGroup1.add(rdPerempuan);
         rdLakiLaki.setSelected(true);
-        viewTable();
         txtSearch.setText("Search");
         setIDMember();
+        viewTable();
     }
 
     public void viewTable() {

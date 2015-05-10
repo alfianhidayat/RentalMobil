@@ -15,25 +15,27 @@ import javax.swing.*;
 public class Main extends javax.swing.JFrame {
 
     CardLayout layout = new CardLayout();
-    FormMember panelMember;
-    FormKendaraan panelKendaraan;
-    FormPenyewaan panelPenyewaan;
-    MenuUtama panelMenu;
-    FormPengembalian panelPengembalian;
+    public static FormMember panelMember;
+    public static FormKendaraan panelKendaraan;
+    public static FormPenyewaan panelPenyewaan;
+    public static MenuUtama panelMenu;
+    public static FormPengembalian panelPengembalian;
 
     /**
      * Creates new form Main
      */
-    
+
     public Main() {
         setTitle("Aplikasi Elektronik Rental");
+        ImageIcon img = new ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\icon.ico");
+        setIconImage(img.getImage());
         initComponents();
         setLocationRelativeTo(null);
         panelMember = new FormMember();
         panelKendaraan = new FormKendaraan();
         panelPenyewaan = new FormPenyewaan();
-        panelMenu = new MenuUtama();
         panelPengembalian = new FormPengembalian();
+        panelMenu = new MenuUtama();
         getContentPane().setLayout(layout);
         getContentPane().add(panelMember);
         getContentPane().add(panelKendaraan);
@@ -41,7 +43,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().add(panelMenu);
         getContentPane().add(panelPengembalian);
         setPaneNull();
-        panelMember.setVisible(true);
+        panelMenu.setVisible(true);
     }
 
     public void setPaneNull() {
@@ -62,6 +64,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         menuBar = new javax.swing.JMenuBar();
+        menuHome = new javax.swing.JMenu();
         menuForm = new javax.swing.JMenu();
         meuFormMember = new javax.swing.JMenuItem();
         menuFormKendaraan = new javax.swing.JMenuItem();
@@ -81,12 +84,15 @@ public class Main extends javax.swing.JFrame {
 
         menuBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        menuForm.setText("Form");
-        menuForm.addMouseListener(new java.awt.event.MouseAdapter() {
+        menuHome.setText("Home");
+        menuHome.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuFormMouseClicked(evt);
+                menuHomeMouseClicked(evt);
             }
         });
+        menuBar.add(menuHome);
+
+        menuForm.setText("Form");
 
         meuFormMember.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         meuFormMember.setText("Member");
@@ -168,6 +174,11 @@ public class Main extends javax.swing.JFrame {
 
         menuAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         menuAbout.setText("About");
+        menuAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAboutActionPerformed(evt);
+            }
+        });
         menuHelp.add(menuAbout);
 
         menuBar.add(menuHelp);
@@ -187,10 +198,6 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void menuFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFormMouseClicked
-
-    }//GEN-LAST:event_menuFormMouseClicked
 
     private void meuFormMemberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_meuFormMemberActionPerformed
         setPaneNull();
@@ -239,9 +246,15 @@ public class Main extends javax.swing.JFrame {
         panelPengembalian.setVisible(true);
     }//GEN-LAST:event_menuFormPengembalianActionPerformed
 
-    
-    
-    
+    private void menuHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuHomeMouseClicked
+        setPaneNull();
+        panelMenu.setVisible(true);
+    }//GEN-LAST:event_menuHomeMouseClicked
+
+    private void menuAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAboutActionPerformed
+        new About().setVisible(true);
+    }//GEN-LAST:event_menuAboutActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -285,6 +298,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuFormPenyewaan;
     private javax.swing.JMenuItem menuGantiPass;
     private javax.swing.JMenu menuHelp;
+    private javax.swing.JMenu menuHome;
     private javax.swing.JMenuItem menuLogOut;
     private javax.swing.JMenuItem meuFormMember;
     private javax.swing.JPopupMenu.Separator sparatorMenuForm;

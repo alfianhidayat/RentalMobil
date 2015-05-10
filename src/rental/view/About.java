@@ -16,6 +16,7 @@ public class About extends javax.swing.JFrame {
      */
     public About() {
         initComponents();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 

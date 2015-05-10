@@ -5,11 +5,13 @@
  */
 package rental.view;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import rental.database.ConnectionDB;
+import rental.database.Query;
 import rental.util.Controller;
 
 /**
@@ -20,6 +22,8 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     private ConnectionDB cdb = new ConnectionDB();
     private Controller ctr = new Controller();
+    private Query Query = new Query();
+    private PreparedStatement preStmt = null;
     private ResultSet rst = null;
     private int Denda = 0;
 
@@ -38,7 +42,7 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     private void setIDKembali() {
         String query = "SELECT COUNT(id_kembali) as no FROM tb_kembali";
-//        txtIDKembali.setText(ctr.autoKode(query, "K"));
+        txtIDKembali.setText(ctr.autoKode(query, "P"));
     }
 
     private void setNull() {
@@ -469,20 +473,33 @@ public class FormPengembalian extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        cdb.executeUpdate("INSERT INTO tb_kembali VALUES "
-                + "('" + txtIDKembali.getText() + "',"
-                + "'" + txtIDFaktur.getText() + "',"
-                + "'" + txtTglKembali.getText() + "',"
-                + "'" + spTerlambat.getValue().toString() + "',"
-                + "'" + Denda + "')");
-        cdb.executeUpdate("UPDATE tb_kendaraan SET status = 'Tersedia' WHERE id_kendaraan = '" + txtIDKendaraan.getText() + "'");
+        try{
+            //INSERT INTO TB_KEMBALI
+            preStmt = cdb.updateStmt(Query.INSERT_KEMBALI_QUERY);
+            preStmt.setString(1, txtIDKembali.getText());
+            preStmt.setString(2, txtIDFaktur.getText());
+            preStmt.setString(3, txtTglKembali.getText());
+            preStmt.setInt(4, Integer.parseInt(spTerlambat.getValue().toString()));
+            preStmt.setInt(5, Denda);
+            preStmt.executeUpdate();
+            //UPDATE STATUS KENDARAAN
+            preStmt = cdb.updateStmt(Query.UPDATE_STATUS_KENDARAAN_QUERY);
+            preStmt.setString(1, "Tersedia");
+            preStmt.setString(2, txtIDKendaraan.getText());
+            preStmt.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         JOptionPane.showMessageDialog(null, "Data Berhasil disimpan !");
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCekIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekIDActionPerformed
         txtIDFaktur.setText(txtIDFaktur.getText().toUpperCase());
-        rst = cdb.executeQuery("SELECT * FROM dataKembali WHERE no_faktur='" + txtIDFaktur.getText() + "'");
+//        rst = cdb.executeQuery("SELECT * FROM dataKembali WHERE no_faktur='" + txtIDFaktur.getText() + "'");
+        preStmt = cdb.updateStmt(Query.SELECT_VIEW_DATAKEMABLI_QUERY);
         try {
+            preStmt.setString(1, txtIDFaktur.getText());
+            rst = preStmt.executeQuery();
             if (rst.next()) {
                 txtNamaMember.setText(rst.getString(2));
                 txtAlamat.setText(rst.getString(3));

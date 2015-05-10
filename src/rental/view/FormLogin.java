@@ -8,8 +8,7 @@ package rental.view;
 import javax.swing.JOptionPane;
 import rental.database.ConnectionDB;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import rental.database.Query;
 
 /**
  *
@@ -17,8 +16,11 @@ import java.util.logging.Logger;
  */
 public class FormLogin extends javax.swing.JFrame {
 
-    public static String akun = ""; 
-    
+    private ConnectionDB cdb = new ConnectionDB();
+    private Query Query = new Query();
+    private ResultSet rst = null;
+    public static String akun = "";
+
     public FormLogin() {
         initComponents();
         setLocationRelativeTo(null);
@@ -51,6 +53,12 @@ public class FormLogin extends javax.swing.JFrame {
         lblPass.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         lblPass.setText("Password");
 
+        txtPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPassActionPerformed(evt);
+            }
+        });
+
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,6 +68,12 @@ public class FormLogin extends javax.swing.JFrame {
 
         lblUsername.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         lblUsername.setText("Username");
+
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtUsernameActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
 
@@ -149,28 +163,40 @@ public class FormLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        ConnectionDB cdb = new ConnectionDB();
-        ResultSet rst = cdb.executeQuery("SELECT * FROM tb_user");
+        rst = cdb.executeQuery(Query.SELECT_USER_QUERY);
         try {
-            while (rst.next()) {
-                String user = rst.getString(1);
-                String pass = rst.getString(2);
-                if (txtUsername.getText().equals(user) && txtPass.getText().equals(pass)) {
-                    akun = txtUsername.getText();
-                    dispose();
-                    new Main().setVisible(true);
-                } else if (txtUsername.getText().equals("")) {
-                    JOptionPane.showMessageDialog(rootPane, "Username atau Password kosong !");
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "Username atau Password Salah !");
-                    txtPass.setText("");
-                    txtUsername.setText("");
+            if (!txtUsername.getText().equals("")) {
+                String user = "";
+                String pass = "";
+                while (rst.next()) {
+                    user = rst.getString(1);
+                    pass = rst.getString(2);
+                    if (txtUsername.getText().equals(user) && txtPass.getText().equals(pass)) {
+                        akun = txtUsername.getText();
+                        dispose();
+                        new Main().setVisible(true);
+                        break;
+                    }
                 }
+                if (!txtUsername.getText().equals(user) || !txtPass.getText().equals(pass)){
+                    JOptionPane.showMessageDialog(rootPane, "Username atau password salah !");
+                    txtPass.setText("");
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Username tidak boleh kosong");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(FormLogin.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void txtPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassActionPerformed
+        btnLoginActionPerformed(evt);
+    }//GEN-LAST:event_txtPassActionPerformed
+
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+        btnLoginActionPerformed(evt);
+    }//GEN-LAST:event_txtUsernameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,16 +212,21 @@ public class FormLogin extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormLogin.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

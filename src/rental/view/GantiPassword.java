@@ -5,7 +5,13 @@
  */
 package rental.view;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import rental.database.ConnectionDB;
+import rental.database.Query;
+import static rental.view.FormLogin.akun;
 
 /**
  *
@@ -14,12 +20,16 @@ import javax.swing.JOptionPane;
 public class GantiPassword extends javax.swing.JFrame {
 
     FormLogin fl = new FormLogin();
-    
+    static ConnectionDB cdb = new ConnectionDB();
+    Query Query = new Query();
+    PreparedStatement preStmt = null;
+    ResultSet rst = null;
+
     public GantiPassword() {
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        lblAkun.setText(fl.akun.toString());
+        lblAkun.setText(fl.akun);
     }
 
     /**
@@ -32,55 +42,40 @@ public class GantiPassword extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton2 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        lbNewPass = new javax.swing.JLabel();
+        txtNewPass = new javax.swing.JPasswordField();
+        btnUpdate = new javax.swing.JButton();
+        lblCurrentPass = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblHeader = new javax.swing.JLabel();
         lblAkun = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPasswordField2 = new javax.swing.JPasswordField();
-        jLabel4 = new javax.swing.JLabel();
+        txtPassConf = new javax.swing.JPasswordField();
+        lblPassConf = new javax.swing.JLabel();
+        txtCurrentPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        jLabel3.setText("Password Baru");
+        lbNewPass.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        lbNewPass.setText("Password Baru");
 
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Update");
-
-        jLabel2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        jLabel2.setText("Password Lama");
-
-        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField1FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField1FocusLost(evt);
-            }
-        });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
+        lblCurrentPass.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        lblCurrentPass.setText("Password Sekarang");
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
-        jLabel1.setText("Ganti Password");
+        lblHeader.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
+        lblHeader.setText("Ganti Password");
 
         lblAkun.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         lblAkun.setText("Akun");
@@ -91,7 +86,7 @@ public class GantiPassword extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jLabel1)
+                .addComponent(lblHeader)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblAkun)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -101,7 +96,7 @@ public class GantiPassword extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 15, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(lblHeader)
                     .addComponent(lblAkun)))
         );
 
@@ -118,14 +113,14 @@ public class GantiPassword extends javax.swing.JFrame {
             .addGap(0, 17, Short.MAX_VALUE)
         );
 
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+        txtPassConf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
+                txtPassConfActionPerformed(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        jLabel4.setText("Konfirmasi Password");
+        lblPassConf.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        lblPassConf.setText("Konfirmasi Password");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -135,25 +130,24 @@ public class GantiPassword extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblCurrentPass, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(lbNewPass)
+                            .addComponent(lblPassConf))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(161, 161, 161)
-                                .addComponent(jButton2))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGap(26, 26, 26)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnUpdate))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
-                                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtPassConf, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCurrentPass)
+                                    .addComponent(txtNewPass, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -162,18 +156,18 @@ public class GantiPassword extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblCurrentPass)
+                    .addComponent(txtCurrentPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbNewPass)
+                    .addComponent(txtNewPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblPassConf)
+                    .addComponent(txtPassConf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnUpdate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -192,25 +186,54 @@ public class GantiPassword extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        rst = cdb.executeQuery(Query.SELECT_USER_QUERY);
+        PreparedStatement preStmt = cdb.updateStmt(Query.UPDATE_USER_QUERY);
+        boolean isTrue = false;
+        try {
+            if (!lblAkun.getText().equals("")) {
+                String user = "";
+                String pass = "";
+                while (rst.next()) {
+                    user = rst.getString(1);
+                    pass = rst.getString(2);
+                    if (lblAkun.getText().equals(user) && txtCurrentPass.getText().equals(pass)) {
+                        if (txtNewPass.getText().equals(txtPassConf.getText())) {
+                            isTrue = true;
+                            JOptionPane.showMessageDialog(rootPane, "Password berhasil diganti !");
+                        } else {
+                            isTrue = false;
+                            JOptionPane.showMessageDialog(rootPane, "Konfirmasi Password tidak sama !");
+                        }
+                    } else {
+                        isTrue = false;
+                    }
+                }
+                if (!lblAkun.getText().equals(user) || !txtCurrentPass.getText().equals(pass)) {
+                    JOptionPane.showMessageDialog(rootPane, "Password lama salah !");
+                }
+            }
+            if (isTrue) {
+                preStmt.setString(1, txtNewPass.getText());
+                preStmt.setString(2, lblAkun.getText());
+                preStmt.executeUpdate();
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                preStmt.close();
+                rst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
 
-    }//GEN-LAST:event_jTextField1FocusGained
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
-
-    }//GEN-LAST:event_jTextField1FocusLost
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
+    private void txtPassConfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPassConfActionPerformed
+        btnUpdateActionPerformed(evt);
+    }//GEN-LAST:event_txtPassConfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,17 +278,17 @@ public class GantiPassword extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lbNewPass;
     private javax.swing.JLabel lblAkun;
+    private javax.swing.JLabel lblCurrentPass;
+    private javax.swing.JLabel lblHeader;
+    private javax.swing.JLabel lblPassConf;
+    private javax.swing.JPasswordField txtCurrentPass;
+    private javax.swing.JPasswordField txtNewPass;
+    private javax.swing.JPasswordField txtPassConf;
     // End of variables declaration//GEN-END:variables
 }

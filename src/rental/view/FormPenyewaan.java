@@ -5,6 +5,7 @@
  */
 package rental.view;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,6 +29,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
     ConnectionDB cdb = new ConnectionDB();
     Query Query = new Query();
     Controller ctr = new Controller();
+    PreparedStatement preStmt = null;
     Statement stms = null;
     ResultSet rst = null;
     int biayaSewa = 0;
@@ -59,7 +61,9 @@ public class FormPenyewaan extends javax.swing.JPanel {
         cbIDKendaraan.removeAllItems();
         cbIDKendaraan.addItem("Pilih");
         try {
-            rst = cdb.executeQuery("SELECT id_kendaraan from tb_kendaraan WHERE status ='Tersedia' and kondisi = 'Baik' and jenis = '" + getSelectedButtonText(buttonGroup1) + "'");
+            preStmt = cdb.updateStmt(Query.SELECT_KENDARAAN_AVAILABLE_QUERY);
+            preStmt.setString(1, getSelectedButtonText(buttonGroup1));
+            rst = preStmt.executeQuery();
             while (rst.next()) {
                 cbIDKendaraan.addItem(rst.getString(1));
             }
@@ -72,7 +76,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         cbIDMember.removeAllItems();
         cbIDMember.addItem("Pilih");
         try {
-            rst = cdb.executeQuery("SELECT id_member from tb_member");
+            rst = cdb.executeQuery(Query.SELECT_MEMBER_QUERY);
             while (rst.next()) {
                 cbIDMember.addItem(rst.getString(1));
             }
@@ -84,9 +88,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
     public void viewTable() {
         try {
-            rst = cdb.executeQuery("SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali, p.total_bayar FROM tb_penyewaan as p, tb_member as m, tb_kendaraan as k "
-                    + "where k.id_kendaraan = p.id_kendaraan and m.id_member = p.id_member "
-                    + "ORDER BY no_faktur ASC");
+            rst = cdb.executeQuery(Query.SELECT_PENYEWAAN_JOIN_QUERY);
             tablePenyewaan.setModel(DbUtils.resultSetToTableModel(rst));
             ((DefaultTableModel) tablePenyewaan.getModel()).setColumnIdentifiers(new Object[]{"Nomor Faktur", "Nama Member", "Merek Kendaraan", "Tgl Sewa", "Tgl Kembali", "Total Bayar"});
             if (rst.next()) {
@@ -521,17 +523,22 @@ public class FormPenyewaan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchFocusLost
 
     private void cbIDKendaraanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDKendaraanItemStateChanged
-        rst = cdb.executeQuery("SELECT no_plat, merek, harga FROM tb_kendaraan WHERE id_kendaraan = '" + cbIDKendaraan.getSelectedItem() + "'");
+//        rst = cdb.executeQuery("SELECT no_plat, merek, harga FROM tb_kendaraan WHERE id_kendaraan = '" + cbIDKendaraan.getSelectedItem() + "'");
         try {
-            if (rst.next()) {
-                txtNopol.setText(rst.getString(1));
-                txtMerekKendaraan.setText(rst.getString(2));
-                biayaSewa = (rst.getInt(3));
-                txtHargaSewa.setText(ctr.toRupiahFormat(rst.getString(3)));
-            } else {
-                txtNopol.setText("");
-                txtMerekKendaraan.setText("");
-                txtHargaSewa.setText("");
+            if (cbIDKendaraan.getItemCount() > 0) {
+                preStmt = cdb.updateStmt(Query.SELECT_KENDARAAN_SELECTED_QUERY);
+                preStmt.setString(1, cbIDKendaraan.getSelectedItem().toString());
+                rst = preStmt.executeQuery();
+                if (rst.next()) {
+                    txtNopol.setText(rst.getString(2));
+                    txtMerekKendaraan.setText(rst.getString(3));
+                    biayaSewa = (rst.getInt(5));
+                    txtHargaSewa.setText(ctr.toRupiahFormat(rst.getString(5)));
+                } else {
+                    txtNopol.setText("");
+                    txtMerekKendaraan.setText("");
+                    txtHargaSewa.setText("");
+                }
             }
             rst.close();
         } catch (SQLException ex) {
@@ -558,16 +565,26 @@ public class FormPenyewaan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void cbIDMemberItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbIDMemberItemStateChanged
-        rst = cdb.executeQuery("SELECT nama FROM tb_member WHERE id_member = '" + cbIDMember.getSelectedItem() + "'");
+//        rst = cdb.executeQuery("SELECT nama FROM tb_member WHERE id_member = '" + cbIDMember.getSelectedItem() + "'");
+        preStmt = cdb.updateStmt(Query.SELECT_MEMBER_SELECTED_QUERY);
         try {
-            if (rst.next()) {
-                txtNamaMember.setText(rst.getString(1));
-            } else {
-                txtNamaMember.setText("");
+            if (cbIDMember.getItemCount() > 0) {
+                preStmt.setString(1, cbIDMember.getSelectedItem().toString());
+                rst = preStmt.executeQuery();
+                if (rst.next()) {
+                    txtNamaMember.setText(rst.getString(1));
+                } else {
+                    txtNamaMember.setText("");
+                }
             }
-            rst.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                rst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }//GEN-LAST:event_cbIDMemberItemStateChanged
 
@@ -599,15 +616,22 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            cdb.executeUpdate("INSERT INTO tb_penyewaan values"
-                    + "('" + txtFaktur.getText() + "',"
-                    + "'" + cbIDMember.getSelectedItem() + "',"
-                    + "'" + cbIDKendaraan.getSelectedItem() + "',"
-                    + "'" + spLamaSewa.getValue().toString() + "',"
-                    + "'" + txtTglSewa.getText() + "',"
-                    + "'" + txtTglKembali.getText() + "',"
-                    + "'" + totalBiaya + "')");
-            cdb.executeUpdate("UPDATE tb_kendaraan SET status = 'Sewa' WHERE id_kendaraan = '"+cbIDKendaraan.getSelectedItem().toString()+"'");
+            // INSERT DATA TO TB_PENYEWAAN
+            preStmt = cdb.updateStmt(Query.INSERT_PENYEWAAN_QUERY);
+            preStmt.setString(1, txtFaktur.getText());
+            preStmt.setString(2, cbIDMember.getSelectedItem().toString());
+            preStmt.setString(3, cbIDKendaraan.getSelectedItem().toString());
+            preStmt.setInt(4, Integer.parseInt(spLamaSewa.getValue().toString()));
+            preStmt.setString(5, txtTglSewa.getText());
+            preStmt.setString(6, txtTglKembali.getText());
+            preStmt.setInt(7, totalBiaya);
+            preStmt.executeUpdate();
+            
+            //UPDATE STATUS KENDARAAN
+            preStmt = cdb.updateStmt(Query.UPDATE_STATUS_KENDARAAN_QUERY);
+            preStmt.setString(1, "Sewa");
+            preStmt.setString(2, cbIDKendaraan.getSelectedItem().toString());
+            preStmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan ?");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
