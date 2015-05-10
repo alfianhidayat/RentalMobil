@@ -15,7 +15,7 @@ public class ConnectionDB {
 
     static final String JDBC_DRIVER = "org.sqlite.JDBC";
     static final String DB_URL = "jdbc:sqlite:rental.sqlite";
-    public Connection conn = null;
+    public static Connection conn = null;
     public Statement stm = null;
     public ResultSet rst = null;
 
@@ -26,7 +26,8 @@ public class ConnectionDB {
     public ConnectionDB() {
         try {
             Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL);
+            if(conn == null)
+                conn = DriverManager.getConnection(DB_URL);
 //            System.out.println("Connection Success");
         } catch (Exception e) {
             System.err.print(e.getMessage());

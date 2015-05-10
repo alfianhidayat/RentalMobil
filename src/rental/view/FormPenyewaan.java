@@ -572,7 +572,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
                 preStmt.setString(1, cbIDMember.getSelectedItem().toString());
                 rst = preStmt.executeQuery();
                 if (rst.next()) {
-                    txtNamaMember.setText(rst.getString(1));
+                    txtNamaMember.setText(rst.getString(2));
                 } else {
                     txtNamaMember.setText("");
                 }

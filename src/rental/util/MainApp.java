@@ -35,7 +35,6 @@ public class MainApp {
             java.util.logging.Logger.getLogger(FormLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         new FormLogin().setVisible(true);
     }
 }
