@@ -191,6 +191,7 @@ public class MenuUtama extends javax.swing.JPanel {
     private void btnSewaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSewaMouseClicked
         main.setPaneNull();
         Main.panelPenyewaan.setVisible(true);
+        
     }//GEN-LAST:event_btnSewaMouseClicked
 
 

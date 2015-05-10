@@ -43,4 +43,5 @@ public class Query {
     public final String INSERT_KEMBALI_QUERY = "INSERT INTO tb_kembali VALUES (?,?,?,?,?);";
     
     public final String SELECT_VIEW_DATAKEMABLI_QUERY = "SELECT * FROM dataKembali WHERE no_faktur = ?;";
+    
 }
