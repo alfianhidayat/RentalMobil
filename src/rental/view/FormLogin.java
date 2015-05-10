@@ -8,7 +8,9 @@ package rental.view;
 import javax.swing.JOptionPane;
 import rental.database.ConnectionDB;
 import java.sql.*;
+import javax.swing.UIManager;
 import rental.database.Query;
+import de.javasoft.plaf.synthetica.SyntheticaBlueSteelLookAndFeel;
 
 /**
  *
@@ -178,7 +180,7 @@ public class FormLogin extends javax.swing.JFrame {
                         break;
                     }
                 }
-                if (!txtUsername.getText().equals(user) || !txtPass.getText().equals(pass)){
+                if (!txtUsername.getText().equals(user) || !txtPass.getText().equals(pass)) {
                     JOptionPane.showMessageDialog(rootPane, "Username atau password salah !");
                     txtPass.setText("");
                 }
@@ -236,7 +238,7 @@ public class FormLogin extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form */
+       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FormLogin().setVisible(true);
