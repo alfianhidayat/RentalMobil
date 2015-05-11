@@ -75,7 +75,7 @@ public class Controller {
         rupiah = rupiah + rupiahFormat.format(Double.parseDouble(nominal)).substring(4);
         return rupiah;
     }
-    
+
     public String getSelectedButtonText(ButtonGroup buttonGroup) {
         for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
@@ -85,4 +85,5 @@ public class Controller {
         }
         return null;
     }
+
 }
