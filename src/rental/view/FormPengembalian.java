@@ -473,24 +473,28 @@ public class FormPengembalian extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        try{
-            //INSERT INTO TB_KEMBALI
-            preStmt = cdb.updateStmt(Query.INSERT_KEMBALI_QUERY);
-            preStmt.setString(1, txtIDKembali.getText());
-            preStmt.setString(2, txtIDFaktur.getText());
-            preStmt.setString(3, txtTglKembali.getText());
-            preStmt.setInt(4, Integer.parseInt(spTerlambat.getValue().toString()));
-            preStmt.setInt(5, Denda);
-            preStmt.executeUpdate();
-            //UPDATE STATUS KENDARAAN
-            preStmt = cdb.updateStmt(Query.UPDATE_STATUS_KENDARAAN_QUERY);
-            preStmt.setString(1, "Tersedia");
-            preStmt.setString(2, txtIDKendaraan.getText());
-            preStmt.executeUpdate();
-        }catch(SQLException e){
+        try {
+            if (!txtIDFaktur.getText().isEmpty()) {
+                //INSERT INTO TB_KEMBALI
+                preStmt = cdb.updateStmt(Query.INSERT_KEMBALI_QUERY);
+                preStmt.setString(1, txtIDKembali.getText());
+                preStmt.setString(2, txtIDFaktur.getText());
+                preStmt.setString(3, txtTglKembali.getText());
+                preStmt.setInt(4, Integer.parseInt(spTerlambat.getValue().toString()));
+                preStmt.setInt(5, Denda);
+                preStmt.executeUpdate();
+                //UPDATE STATUS KENDARAAN
+                preStmt = cdb.updateStmt(Query.UPDATE_STATUS_KENDARAAN_QUERY);
+                preStmt.setString(1, "Tersedia");
+                preStmt.setString(2, txtIDKendaraan.getText());
+                preStmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data Berhasil disimpan !");
+            }else{
+                JOptionPane.showMessageDialog(null, "Pilih ID Faktur !");
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        JOptionPane.showMessageDialog(null, "Data Berhasil disimpan !");
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCekIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekIDActionPerformed

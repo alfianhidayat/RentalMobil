@@ -613,28 +613,35 @@ public class FormPenyewaan extends javax.swing.JPanel {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-            // INSERT DATA TO TB_PENYEWAAN
-            preStmt = cdb.updateStmt(Query.INSERT_PENYEWAAN_QUERY);
-            preStmt.setString(1, txtFaktur.getText());
-            preStmt.setString(2, cbIDMember.getSelectedItem().toString());
-            preStmt.setString(3, cbIDKendaraan.getSelectedItem().toString());
-            preStmt.setInt(4, Integer.parseInt(spLamaSewa.getValue().toString()));
-            preStmt.setString(5, txtTglSewa.getText());
-            preStmt.setString(6, txtTglKembali.getText());
-            preStmt.setInt(7, totalBiaya);
-            preStmt.executeUpdate();
-            
-            //UPDATE STATUS KENDARAAN
-            preStmt = cdb.updateStmt(Query.UPDATE_STATUS_KENDARAAN_QUERY);
-            preStmt.setString(1, "Sewa");
-            preStmt.setString(2, cbIDKendaraan.getSelectedItem().toString());
-            preStmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data berhasil disimpan ?");
+            if (!cbIDMember.getSelectedItem().equals("Pilih") && !cbIDKendaraan.getSelectedItem().equals("Pilih")) {
+
+                // INSERT DATA TO TB_PENYEWAAN
+                preStmt = cdb.updateStmt(Query.INSERT_PENYEWAAN_QUERY);
+                preStmt.setString(1, txtFaktur.getText());
+                preStmt.setString(2, cbIDMember.getSelectedItem().toString());
+                preStmt.setString(3, cbIDKendaraan.getSelectedItem().toString());
+                preStmt.setInt(4, Integer.parseInt(spLamaSewa.getValue().toString()));
+                preStmt.setString(5, txtTglSewa.getText());
+                preStmt.setString(6, txtTglKembali.getText());
+                preStmt.setInt(7, totalBiaya);
+                preStmt.executeUpdate();
+
+                //UPDATE STATUS KENDARAAN
+                preStmt = cdb.updateStmt(Query.UPDATE_STATUS_KENDARAAN_QUERY);
+                preStmt.setString(1, "Sewa");
+                preStmt.setString(2, cbIDKendaraan.getSelectedItem().toString());
+                preStmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil disimpan ?");
+            } else {
+                JOptionPane.showMessageDialog(null, "Pilih ID Member dan Kendaraan !");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            totalBiaya = 0;
+            viewTable();
+            btnClearActionPerformed(evt);
         }
-        viewTable();
-        btnClearActionPerformed(evt);
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void rdMobilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMobilMouseClicked
@@ -645,7 +652,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         setComboKendaraan();
     }//GEN-LAST:event_rdMotorMouseClicked
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnSave;

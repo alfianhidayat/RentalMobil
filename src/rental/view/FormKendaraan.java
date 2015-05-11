@@ -5,13 +5,11 @@
  */
 package rental.view;
 
+import java.awt.event.ComponentEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -47,13 +45,18 @@ public class FormKendaraan extends javax.swing.JPanel {
         setIDKendaraan();
     }
 
-    public void viewTable() {
+    protected void viewTable() {
         rst = cdb.executeQuery(Query.SELECT_KENDARAAN_QUERY);
         tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
     }
 
-    public void setIDKendaraan() {
+    @Override
+    protected void processComponentEvent(ComponentEvent e) {
+        super.processComponentEvent(e); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected void setIDKendaraan() {
         txtID.setText(ctr.autoKode(Query.SELECT_COUNT_KENDARAAN_QUERY, "K"));
     }
 
@@ -352,22 +355,26 @@ public class FormKendaraan extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            preStmt = cdb.updateStmt(Query.INSERT_KENDARAAN_QUERY);
-            preStmt.setString(1, txtID.getText());
-            preStmt.setString(2, txtNopol.getText());
-            preStmt.setString(3, txtMerek.getText());
-            preStmt.setString(4, txtWarna.getText());
-            preStmt.setString(5, txtHarga.getText());
-            preStmt.setString(6, cbTahun.getSelectedItem().toString());
-            preStmt.setString(7, ctr.getSelectedButtonText(rdGroupJenis));
-            preStmt.setString(8, ctr.getSelectedButtonText(rdGroupKondisi));
-            preStmt.setString(9, ctr.getSelectedButtonText(rdGroupStatus));
-            preStmt.executeUpdate();
+            if (!txtHarga.getText().isEmpty() && !txtMerek.getText().isEmpty() && !txtNopol.getText().isEmpty() && !txtWarna.getText().isEmpty()) {
+                preStmt = cdb.updateStmt(Query.INSERT_KENDARAAN_QUERY);
+                preStmt.setString(1, txtID.getText());
+                preStmt.setString(2, txtNopol.getText());
+                preStmt.setString(3, txtMerek.getText());
+                preStmt.setString(4, txtWarna.getText());
+                preStmt.setString(5, txtHarga.getText());
+                preStmt.setString(6, cbTahun.getSelectedItem().toString());
+                preStmt.setString(7, ctr.getSelectedButtonText(rdGroupJenis));
+                preStmt.setString(8, ctr.getSelectedButtonText(rdGroupKondisi));
+                preStmt.setString(9, ctr.getSelectedButtonText(rdGroupStatus));
+                preStmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data Berhasil ditambahkan !");
+            } else {
+                JOptionPane.showMessageDialog(null, "Lengkapi data terlebih dahulu !");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
-        JOptionPane.showMessageDialog(null, "Data Berhasil ditambahkan !");
         viewTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -393,10 +400,16 @@ public class FormKendaraan extends javax.swing.JPanel {
                 preStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data Gagal di Update !");
+        } finally {
+            try {
+                viewTable();
+                preStmt.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        viewTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
@@ -427,8 +440,8 @@ public class FormKendaraan extends javax.swing.JPanel {
         }
         viewTable();
     }//GEN-LAST:event_btnDeleteActionPerformed
-       
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;
