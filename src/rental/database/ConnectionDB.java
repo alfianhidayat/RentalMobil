@@ -26,9 +26,9 @@ public class ConnectionDB {
     public ConnectionDB() {
         try {
             Class.forName(JDBC_DRIVER);
-            if(conn == null)
+            if (conn == null) {
                 conn = DriverManager.getConnection(DB_URL);
-//            System.out.println("Connection Success");
+            }
         } catch (Exception e) {
             System.err.print(e.getMessage());
         }
