@@ -586,7 +586,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
     }//GEN-LAST:event_cbIDMemberItemStateChanged
 
     private void spLamaSewaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spLamaSewaStateChanged
-        if (cbIDMember.getSelectedItem().equals("Pilih") & cbIDKendaraan.getSelectedItem().equals("Pilih")) {
+        if (cbIDMember.getSelectedItem().equals("Pilih") || cbIDKendaraan.getSelectedItem().equals("Pilih")) {
             if (!spLamaSewa.getValue().equals(0)) {
                 spLamaSewa.setValue(0);
                 JOptionPane.showMessageDialog(null, "Pilih ID Member dan ID Kendaraan terlebih dahulu !");
