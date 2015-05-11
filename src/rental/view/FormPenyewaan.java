@@ -57,7 +57,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         txtFaktur.setText(ctr.autoKode(query, "F"));
     }
 
-    public void setComboKendaraan() {
+    protected void setComboKendaraan() {
         cbIDKendaraan.removeAllItems();
         cbIDKendaraan.addItem("Pilih");
         try {
@@ -72,7 +72,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         }
     }
 
-    public void setComboMember() {
+    protected void setComboMember() {
         cbIDMember.removeAllItems();
         cbIDMember.addItem("Pilih");
         try {
@@ -86,7 +86,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         }
     }
 
-    public void viewTable() {
+    protected void viewTable() {
         try {
             rst = cdb.executeQuery(Query.SELECT_PENYEWAAN_JOIN_QUERY);
             tablePenyewaan.setModel(DbUtils.resultSetToTableModel(rst));
@@ -575,12 +575,12 @@ public class FormPenyewaan extends javax.swing.JPanel {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         } finally {
             try {
                 rst.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }//GEN-LAST:event_cbIDMemberItemStateChanged
@@ -638,9 +638,14 @@ public class FormPenyewaan extends javax.swing.JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
-            totalBiaya = 0;
-            viewTable();
-            btnClearActionPerformed(evt);
+            try {
+                totalBiaya = 0;
+                viewTable();
+                btnClearActionPerformed(evt);
+                preStmt.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 

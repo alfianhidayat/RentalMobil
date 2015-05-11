@@ -5,10 +5,8 @@
  */
 package rental.view;
 
+import java.awt.Dimension;
 import java.sql.*;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -42,13 +40,18 @@ public class FormMember extends javax.swing.JPanel {
         viewTable();
     }
 
-    public void viewTable() {
+    @Override
+    public Dimension preferredSize() {
+        return super.preferredSize(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected void viewTable() {
         rst = cdb.executeQuery(Query.SELECT_MEMBER_QUERY);
         tableMember.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
     }
 
-    public void setIDMember() {
+    private void setIDMember() {
         txtIDMember.setText(ctr.autoKode(Query.SELECT_COUNT_MEMBER_QUERY, "M"));
     }
 
@@ -382,7 +385,7 @@ public class FormMember extends javax.swing.JPanel {
             preStmt.setString(2, "%" + txtSearch.getText() + "%");
             rst = preStmt.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         tableMember.setModel(DbUtils.resultSetToTableModel(rst));
         ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});

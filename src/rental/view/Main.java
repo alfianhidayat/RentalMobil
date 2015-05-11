@@ -24,13 +24,10 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-
     public Main() {
-        setTitle("Aplikasi Elektronik Rental");
-        ImageIcon img = new ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\icon.ico");
-        setIconImage(img.getImage());
         initComponents();
         setLocationRelativeTo(null);
+
         panelMember = new FormMember();
         panelKendaraan = new FormKendaraan();
         panelPenyewaan = new FormPenyewaan();
@@ -44,6 +41,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().add(panelPengembalian);
         setPaneNull();
         panelMenu.setVisible(true);
+
     }
 
     public void setPaneNull() {
@@ -80,6 +78,7 @@ public class Main extends javax.swing.JFrame {
         menuAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Aplikasi Elektronik Rental");
         setResizable(false);
 
         menuBar.setBorder(javax.swing.BorderFactory.createEtchedBorder());

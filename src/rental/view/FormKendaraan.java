@@ -56,7 +56,7 @@ public class FormKendaraan extends javax.swing.JPanel {
         super.processComponentEvent(e); //To change body of generated methods, choose Tools | Templates.
     }
 
-    protected void setIDKendaraan() {
+    private void setIDKendaraan() {
         txtID.setText(ctr.autoKode(Query.SELECT_COUNT_KENDARAAN_QUERY, "K"));
     }
 
@@ -367,9 +367,9 @@ public class FormKendaraan extends javax.swing.JPanel {
                 preStmt.setString(8, ctr.getSelectedButtonText(rdGroupKondisi));
                 preStmt.setString(9, ctr.getSelectedButtonText(rdGroupStatus));
                 preStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data Berhasil ditambahkan !");
+                JOptionPane.showMessageDialog(this, "Data Berhasil ditambahkan !");
             } else {
-                JOptionPane.showMessageDialog(null, "Lengkapi data terlebih dahulu !");
+                JOptionPane.showMessageDialog(this, "Lengkapi data terlebih dahulu !");
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
