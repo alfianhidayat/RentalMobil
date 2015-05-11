@@ -402,7 +402,7 @@ public class FormMember extends javax.swing.JPanel {
                 preStmt.setString(2, txtNoIdentitas.getText());
                 preStmt.setString(3, txtAlamat.getText());
                 preStmt.setString(4, txtNomorHP.getText());
-                preStmt.setString(5, getSelectedButtonText(buttonGroup1));
+                preStmt.setString(5, ctr.getSelectedButtonText(buttonGroup1));
                 preStmt.setString(6, txtIDMember.getText());
                 preStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
@@ -441,7 +441,7 @@ public class FormMember extends javax.swing.JPanel {
             preStmt.setString(3, txtNoIdentitas.getText());
             preStmt.setString(4, txtAlamat.getText());
             preStmt.setString(5, txtNomorHP.getText());
-            preStmt.setString(6, getSelectedButtonText(buttonGroup1));
+            preStmt.setString(6, ctr.getSelectedButtonText(buttonGroup1));
             preStmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
         } catch (Exception e) {
@@ -449,17 +449,6 @@ public class FormMember extends javax.swing.JPanel {
         }
         viewTable();
     }//GEN-LAST:event_btnAddActionPerformed
-    public String getSelectedButtonText(ButtonGroup buttonGroup) {
-        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-
-            if (button.isSelected()) {
-                return button.getText();
-            }
-        }
-        return null;
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;

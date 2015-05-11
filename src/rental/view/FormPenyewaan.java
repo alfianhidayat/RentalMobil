@@ -62,7 +62,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         cbIDKendaraan.addItem("Pilih");
         try {
             preStmt = cdb.updateStmt(Query.SELECT_KENDARAAN_AVAILABLE_QUERY);
-            preStmt.setString(1, getSelectedButtonText(buttonGroup1));
+            preStmt.setString(1, ctr.getSelectedButtonText(buttonGroup1));
             rst = preStmt.executeQuery();
             while (rst.next()) {
                 cbIDKendaraan.addItem(rst.getString(1));
@@ -647,15 +647,8 @@ public class FormPenyewaan extends javax.swing.JPanel {
     private void rdMotorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdMotorMouseClicked
         setComboKendaraan();
     }//GEN-LAST:event_rdMotorMouseClicked
-    public String getSelectedButtonText(ButtonGroup buttonGroup) {
-        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                return button.getText();
-            }
-        }
-        return null;
-    }
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnSave;

@@ -359,9 +359,9 @@ public class FormKendaraan extends javax.swing.JPanel {
             preStmt.setString(4, txtWarna.getText());
             preStmt.setString(5, txtHarga.getText());
             preStmt.setString(6, cbTahun.getSelectedItem().toString());
-            preStmt.setString(7, getSelectedButtonText(rdGroupJenis));
-            preStmt.setString(8, getSelectedButtonText(rdGroupKondisi));
-            preStmt.setString(9, getSelectedButtonText(rdGroupStatus));
+            preStmt.setString(7, ctr.getSelectedButtonText(rdGroupJenis));
+            preStmt.setString(8, ctr.getSelectedButtonText(rdGroupKondisi));
+            preStmt.setString(9, ctr.getSelectedButtonText(rdGroupStatus));
             preStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -386,9 +386,9 @@ public class FormKendaraan extends javax.swing.JPanel {
                 preStmt.setString(3, txtWarna.getText());
                 preStmt.setString(4, txtHarga.getText());
                 preStmt.setString(5, cbTahun.getSelectedItem().toString());
-                preStmt.setString(6, getSelectedButtonText(rdGroupJenis));
-                preStmt.setString(7, getSelectedButtonText(rdGroupKondisi));
-                preStmt.setString(8, getSelectedButtonText(rdGroupStatus));
+                preStmt.setString(6, ctr.getSelectedButtonText(rdGroupJenis));
+                preStmt.setString(7, ctr.getSelectedButtonText(rdGroupKondisi));
+                preStmt.setString(8, ctr.getSelectedButtonText(rdGroupStatus));
                 preStmt.setString(9, txtID.getText());
                 preStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
@@ -427,18 +427,8 @@ public class FormKendaraan extends javax.swing.JPanel {
         }
         viewTable();
     }//GEN-LAST:event_btnDeleteActionPerformed
-
-    public String getSelectedButtonText(ButtonGroup buttonGroup) {
-        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-
-            if (button.isSelected()) {
-                return button.getText();
-            }
-        }
-        return null;
-    }
-
+       
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClear;

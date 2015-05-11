@@ -5,14 +5,15 @@
  */
 package rental.util;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Locale;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import rental.database.ConnectionDB;
 import rental.database.Query;
@@ -73,5 +74,15 @@ public class Controller {
         rupiahFormat = NumberFormat.getCurrencyInstance(locale);
         rupiah = rupiah + rupiahFormat.format(Double.parseDouble(nominal)).substring(4);
         return rupiah;
+    }
+    
+    public String getSelectedButtonText(ButtonGroup buttonGroup) {
+        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                return button.getText();
+            }
+        }
+        return null;
     }
 }
