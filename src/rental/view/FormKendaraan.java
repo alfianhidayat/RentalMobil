@@ -373,9 +373,10 @@ public class FormKendaraan extends javax.swing.JPanel {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            viewTable();
+            btnClearActionPerformed(evt);
         }
-
-        viewTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -398,10 +399,10 @@ public class FormKendaraan extends javax.swing.JPanel {
                 preStmt.setString(8, ctr.getSelectedButtonText(rdGroupStatus));
                 preStmt.setString(9, txtID.getText());
                 preStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
+                JOptionPane.showMessageDialog(this, "Data berhasil di Update !");
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Data Gagal di Update !");
+            JOptionPane.showMessageDialog(this, "Data Gagal di Update !");
         } finally {
             try {
                 viewTable();
@@ -433,10 +434,10 @@ public class FormKendaraan extends javax.swing.JPanel {
                 preStmt.setString(1, txtID.getText());
                 preStmt.executeUpdate();
                 viewTable();
-                JOptionPane.showMessageDialog(null, "Data berhasil dihapus !");
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus !");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data gagal dihapus !");
+            JOptionPane.showMessageDialog(this, "Data gagal dihapus !");
         }
         viewTable();
     }//GEN-LAST:event_btnDeleteActionPerformed

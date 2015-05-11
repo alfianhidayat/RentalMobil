@@ -94,6 +94,7 @@ public class Main extends javax.swing.JFrame {
         menuForm.setText("Form");
 
         meuFormMember.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        meuFormMember.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\member_icon.png")); // NOI18N
         meuFormMember.setText("Member");
         meuFormMember.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,6 +104,7 @@ public class Main extends javax.swing.JFrame {
         menuForm.add(meuFormMember);
 
         menuFormKendaraan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_K, java.awt.event.InputEvent.CTRL_MASK));
+        menuFormKendaraan.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\car_icon.png")); // NOI18N
         menuFormKendaraan.setText("Kendaraan");
         menuFormKendaraan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +114,7 @@ public class Main extends javax.swing.JFrame {
         menuForm.add(menuFormKendaraan);
 
         menuFormPengembalian.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuFormPengembalian.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\return_icon.png")); // NOI18N
         menuFormPengembalian.setText("Pengembalian");
         menuFormPengembalian.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,6 +124,7 @@ public class Main extends javax.swing.JFrame {
         menuForm.add(menuFormPengembalian);
 
         menuFormPenyewaan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        menuFormPenyewaan.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\sewa_icon.png")); // NOI18N
         menuFormPenyewaan.setText("Penyewaan");
         menuFormPenyewaan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +135,7 @@ public class Main extends javax.swing.JFrame {
         menuForm.add(sparatorMenuForm);
 
         menuExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        menuExit.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\exit_icon.png")); // NOI18N
         menuExit.setText("Exit");
         menuExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,6 +149,7 @@ public class Main extends javax.swing.JFrame {
         menuHelp.setText("Help");
 
         menuAkun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuAkun.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\akun_icon.png")); // NOI18N
         menuAkun.setText("Akun");
         menuAkun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,6 +159,7 @@ public class Main extends javax.swing.JFrame {
         menuHelp.add(menuAkun);
 
         menuGantiPass.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        menuGantiPass.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\pass_icon.png")); // NOI18N
         menuGantiPass.setText("Ganti Password");
         menuGantiPass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +170,7 @@ public class Main extends javax.swing.JFrame {
         menuHelp.add(sparatorMenuHelp);
 
         menuLogOut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        menuLogOut.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\log_out_icon.png")); // NOI18N
         menuLogOut.setText("Log Out");
         menuLogOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,6 +180,7 @@ public class Main extends javax.swing.JFrame {
         menuHelp.add(menuLogOut);
 
         menuAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
+        menuAbout.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\about_icon.png")); // NOI18N
         menuAbout.setText("About");
         menuAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

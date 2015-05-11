@@ -20,9 +20,9 @@ import rental.util.Controller;
  */
 public class FormPengembalian extends javax.swing.JPanel {
 
-    private ConnectionDB cdb = new ConnectionDB();
-    private Controller ctr = new Controller();
-    private Query Query = new Query();
+    private final ConnectionDB cdb = new ConnectionDB();
+    private final Controller ctr = new Controller();
+    private final Query Query = new Query();
     private PreparedStatement preStmt = null;
     private ResultSet rst = null;
     private int Denda = 0;
@@ -488,12 +488,19 @@ public class FormPengembalian extends javax.swing.JPanel {
                 preStmt.setString(1, "Tersedia");
                 preStmt.setString(2, txtIDKendaraan.getText());
                 preStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data Berhasil disimpan !");
+                JOptionPane.showMessageDialog(this, "Data Berhasil disimpan !");
             }else{
-                JOptionPane.showMessageDialog(null, "Pilih ID Faktur !");
+                JOptionPane.showMessageDialog(this, "Pilih ID Faktur !");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally{
+            try{
+            btnClearActionPerformed(evt);
+            preStmt.close();
+            }catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -532,7 +539,7 @@ public class FormPengembalian extends javax.swing.JPanel {
             int dibayar = Integer.parseInt(txtDibayar.getText());
             txtKembali.setText(ctr.toRupiahFormat(String.valueOf(dibayar - Denda)));
         } else {
-            JOptionPane.showMessageDialog(null, "Uang Pembayaran Kurang !");
+            JOptionPane.showMessageDialog(this, "Uang Pembayaran Kurang !");
             txtDibayar.setText("");
         }
     }//GEN-LAST:event_txtDibayarActionPerformed

@@ -29,6 +29,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+M"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\member_icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Member"/>
               </Properties>
               <Events>
@@ -39,6 +42,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+K"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\car_icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Kendaraan"/>
               </Properties>
@@ -51,6 +57,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+P"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\return_icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pengembalian"/>
               </Properties>
               <Events>
@@ -61,6 +70,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+P"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\sewa_icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Penyewaan"/>
               </Properties>
@@ -74,6 +86,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+E"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\exit_icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
@@ -93,6 +108,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+A"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\akun_icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Akun"/>
               </Properties>
               <Events>
@@ -103,6 +121,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Shift+Ctrl+G"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\pass_icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ganti Password"/>
               </Properties>
@@ -117,6 +138,9 @@
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+L"/>
                 </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\log_out_icon.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Log Out"/>
               </Properties>
               <Events>
@@ -127,6 +151,9 @@
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+H"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="2" name="C:\Users\Alfian Hidayat\Documents\NetBeansProjects\RentalMobil\src\rental\asset\about_icon.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="About"/>
               </Properties>

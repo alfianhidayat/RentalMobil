@@ -408,10 +408,10 @@ public class FormMember extends javax.swing.JPanel {
                 preStmt.setString(5, ctr.getSelectedButtonText(buttonGroup1));
                 preStmt.setString(6, txtIDMember.getText());
                 preStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data berhasil di Update !");
+                JOptionPane.showMessageDialog(this, "Data berhasil di Update !");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data Gagal di Update !");
+            JOptionPane.showMessageDialog(this, "Data Gagal di Update !");
         }
         viewTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -420,19 +420,19 @@ public class FormMember extends javax.swing.JPanel {
         try {
             if (tableMember.getSelectedRow() == -1) {
                 if (tableMember.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "Tabel Kosong !!");
+                    JOptionPane.showMessageDialog(this, "Tabel Kosong !!");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Pilih data Member !!");
+                    JOptionPane.showMessageDialog(this, "Pilih data Member !!");
                 }
             } else {
                 preStmt = cdb.updateStmt(Query.DELETE_MEMBER_QUERY);
                 preStmt.setString(1, txtIDMember.getText());
                 preStmt.executeUpdate();
                 viewTable();
-                JOptionPane.showMessageDialog(null, "Data berhasil dihapus !");
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus !");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Data gagal dihapus !");
+            JOptionPane.showMessageDialog(this, "Data gagal dihapus !");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -446,9 +446,9 @@ public class FormMember extends javax.swing.JPanel {
             preStmt.setString(5, txtNomorHP.getText());
             preStmt.setString(6, ctr.getSelectedButtonText(buttonGroup1));
             preStmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data berhasil ditambahkan !");
+            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan !");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
         viewTable();
     }//GEN-LAST:event_btnAddActionPerformed

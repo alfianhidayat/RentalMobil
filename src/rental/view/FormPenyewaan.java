@@ -9,9 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
@@ -26,15 +23,15 @@ import rental.util.Controller;
  */
 public class FormPenyewaan extends javax.swing.JPanel {
 
-    ConnectionDB cdb = new ConnectionDB();
-    Query Query = new Query();
-    Controller ctr = new Controller();
-    PreparedStatement preStmt = null;
-    Statement stms = null;
-    ResultSet rst = null;
-    int biayaSewa = 0;
-    int totalBiaya = 0;
-    int kembalian = 0;
+    private final ConnectionDB cdb = new ConnectionDB();
+    private final Query Query = new Query();
+    private final Controller ctr = new Controller();
+    private PreparedStatement preStmt = null;
+    private Statement stms = null;
+    private ResultSet rst = null;
+    private int biayaSewa = 0;
+    private int totalBiaya = 0;
+    private int kembalian = 0;
 
     /**
      * Creates new form FormLogin
@@ -589,7 +586,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
         if (cbIDMember.getSelectedItem().equals("Pilih") || cbIDKendaraan.getSelectedItem().equals("Pilih")) {
             if (!spLamaSewa.getValue().equals(0)) {
                 spLamaSewa.setValue(0);
-                JOptionPane.showMessageDialog(null, "Pilih ID Member dan ID Kendaraan terlebih dahulu !");
+                JOptionPane.showMessageDialog(this, "Pilih ID Member dan ID Kendaraan terlebih dahulu !");
             }
         } else {
             txtTglSewa.setText(ctr.currentDate());
@@ -606,7 +603,7 @@ public class FormPenyewaan extends javax.swing.JPanel {
             int dibayar = Integer.parseInt(txtDibayar.getText());
             txtKembali.setText(ctr.toRupiahFormat(String.valueOf(dibayar - totalbayar)));
         } else {
-            JOptionPane.showMessageDialog(null, "Uang Pembayaran Kurang !");
+            JOptionPane.showMessageDialog(this, "Uang Pembayaran Kurang !");
             txtDibayar.setText("");
         }
     }//GEN-LAST:event_txtDibayarActionPerformed
@@ -631,12 +628,12 @@ public class FormPenyewaan extends javax.swing.JPanel {
                 preStmt.setString(1, "Sewa");
                 preStmt.setString(2, cbIDKendaraan.getSelectedItem().toString());
                 preStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Data berhasil disimpan ?");
+                JOptionPane.showMessageDialog(this, "Data berhasil disimpan ?");
             } else {
-                JOptionPane.showMessageDialog(null, "Pilih ID Member dan Kendaraan !");
+                JOptionPane.showMessageDialog(this, "Pilih ID Member dan Kendaraan !");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
         } finally {
             try {
                 totalBiaya = 0;

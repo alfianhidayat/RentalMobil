@@ -176,30 +176,40 @@ public class EditAkun extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             prStmt = cdb.updateStmt(Query.INSERT_USER_QUERY);
-            prStmt.setString(1, txtUser.getText().toString());
-            prStmt.setString(2, txtPass.getText().toString());
+            prStmt.setString(1, txtUser.getText());
+            prStmt.setString(2, txtPass.getText());
             prStmt.executeUpdate();
-            JOptionPane.showMessageDialog(rootPane, "Akun Berhasil ditambahkan");
+            JOptionPane.showMessageDialog(this, "Akun Berhasil ditambahkan");
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally{
-            txtUser.setText("");
-            txtPass.setText("");
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                txtUser.setText("");
+                txtPass.setText("");
+                prStmt.close();
+            }catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
             prStmt = cdb.updateStmt(Query.DELETE_USER_QUERY);
-            prStmt.setString(1, txtUser.getText().toString());
-            prStmt.setString(2, txtPass.getText().toString());
+            prStmt.setString(1, txtUser.getText());
+            prStmt.setString(2, txtPass.getText());
             prStmt.executeUpdate();
-            JOptionPane.showMessageDialog(rootPane, "Akun Berhasil dihapus");
+            JOptionPane.showMessageDialog(this, "Akun Berhasil dihapus");
         } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally{
-            txtUser.setText("");
-            txtPass.setText("");
+            System.out.println(ex.getMessage());
+        } finally {
+            try {
+                txtUser.setText("");
+                txtPass.setText("");
+                prStmt.close();
+            }catch(SQLException e){
+                System.out.println(e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
