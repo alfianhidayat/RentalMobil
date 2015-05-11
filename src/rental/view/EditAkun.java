@@ -176,6 +176,9 @@ public class EditAkun extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Akun Berhasil ditambahkan");
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally{
+            txtUser.setText("");
+            txtPass.setText("");
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -188,6 +191,9 @@ public class EditAkun extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Akun Berhasil dihapus");
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally{
+            txtUser.setText("");
+            txtPass.setText("");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 

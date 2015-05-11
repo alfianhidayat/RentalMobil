@@ -55,68 +55,64 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="lblIDFaktur" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="62" max="32767" attributes="0"/>
-                              <Component id="txtFaktur" min="-2" pref="165" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="lblIDMember" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblNamaMember" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblJenisKendaraan" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblMerekKendaraan" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblNopol" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblHargaSewa" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblLamaSewa" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblIDMember" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblNamaMember" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblJenisKendaraan" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblMerekKendaraan" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblNopol" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblHargaSewa" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblLamaSewa" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblIDKendaraan" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="rdMobil" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="rdMotor" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="rdMobil" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="rdMotor" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="spLamaSewa" min="-2" pref="90" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="lblHari" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="cbIDKendaraan" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
-                                      <Component id="txtNamaMember" alignment="0" pref="165" max="32767" attributes="0"/>
-                                      <Component id="txtMerekKendaraan" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="txtNopol" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="cbIDMember" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="txtHargaSewa" min="-2" pref="129" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="lblPerHari" min="-2" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="spLamaSewa" min="-2" pref="90" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblHari" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="cbIDKendaraan" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="txtNamaMember" alignment="0" pref="165" max="32767" attributes="0"/>
+                                  <Component id="txtMerekKendaraan" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtNopol" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cbIDMember" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="txtHargaSewa" min="-2" pref="129" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lblPerHari" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="lblIDKendaraan" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="lblIDFaktur" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="txtFaktur" min="-2" pref="165" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblTglSewa" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                                      <Component id="txtTglSewa" min="-2" pref="150" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="lblTglKembali" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="txtTglKembali" min="-2" pref="150" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lblTglSewa" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="txtTglSewa" min="-2" pref="150" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="panelBiaya" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="panelBiaya" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="lblTglKembali" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="txtTglKembali" min="-2" pref="150" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
@@ -139,11 +135,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtFaktur" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblIDFaktur" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="lblIDFaktur" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblIDMember" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cbIDMember" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -191,6 +184,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblTglSewa" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtTglSewa" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFaktur" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -215,7 +209,7 @@
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="187" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="190" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
           </Group>
@@ -507,7 +501,7 @@
     </Container>
     <Component class="javax.swing.JLabel" name="lblIDFaktur">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ID Sewa"/>
+        <Property name="text" type="java.lang.String" value="ID Faktur"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFaktur">

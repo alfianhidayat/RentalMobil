@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import rental.database.ConnectionDB;
 import rental.database.Query;
-import static rental.view.FormLogin.akun;
 
 /**
  *
@@ -194,22 +193,26 @@ public class GantiPassword extends javax.swing.JFrame {
             if (!lblAkun.getText().equals("")) {
                 String user = "";
                 String pass = "";
+                String ket = "";
                 while (rst.next()) {
                     user = rst.getString(1);
                     pass = rst.getString(2);
                     if (lblAkun.getText().equals(user) && txtCurrentPass.getText().equals(pass)) {
                         if (txtNewPass.getText().equals(txtPassConf.getText())) {
+                            ket = "";
                             isTrue = true;
                             JOptionPane.showMessageDialog(rootPane, "Password berhasil diganti !");
                         } else {
+                            ket = "";
                             isTrue = false;
                             JOptionPane.showMessageDialog(rootPane, "Konfirmasi Password tidak sama !");
                         }
                     } else {
+                        ket = "password";
                         isTrue = false;
                     }
                 }
-                if (!lblAkun.getText().equals(user) || !txtCurrentPass.getText().equals(pass)) {
+                if (!txtCurrentPass.getText().equals(pass) && ket.equals("password")) {
                     JOptionPane.showMessageDialog(rootPane, "Password lama salah !");
                 }
             }
@@ -219,15 +222,17 @@ public class GantiPassword extends javax.swing.JFrame {
                 preStmt.executeUpdate();
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
         } finally {
             try {
+                txtCurrentPass.setText("");
+                txtNewPass.setText("");
+                txtPassConf.setText("");
                 preStmt.close();
                 rst.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
-
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
