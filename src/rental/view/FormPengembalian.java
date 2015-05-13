@@ -45,7 +45,7 @@ public class FormPengembalian extends javax.swing.JPanel {
         txtIDKembali.setText(ctr.autoKode(query, "P"));
     }
 
-    private void setNull() {
+    private void setNullTextField() {
         setIDKembali();
         txtIDFaktur.setText("");
         txtNamaMember.setText("");
@@ -489,17 +489,17 @@ public class FormPengembalian extends javax.swing.JPanel {
                 preStmt.setString(2, txtIDKendaraan.getText());
                 preStmt.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Data Berhasil disimpan !");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Pilih ID Faktur !");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally{
-            try{
-            btnClearActionPerformed(evt);
-            preStmt.close();
-            }catch(SQLException e){
-                System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } finally {
+            try {
+                btnClearActionPerformed(evt);
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -522,10 +522,16 @@ public class FormPengembalian extends javax.swing.JPanel {
                 txtHarga.setText(rst.getString(9));
                 txtTglKembali.setText(ctr.currentDate());
             } else {
-                setNull();
+                setNullTextField();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } finally {
+            try {
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnCekIDActionPerformed
 
@@ -549,7 +555,7 @@ public class FormPengembalian extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIDFakturActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        setNull();
+        setNullTextField();
     }//GEN-LAST:event_btnClearActionPerformed
 
 

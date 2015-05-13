@@ -193,6 +193,12 @@ public class FormLogin extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally{
+            try{
+                rst.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

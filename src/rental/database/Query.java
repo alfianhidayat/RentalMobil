@@ -11,21 +11,22 @@ package rental.database;
  */
 public class Query {
 
-    public static final String SELECT_USER_QUERY = "SELECT * FROM tb_user;";
-    public static final String INSERT_USER_QUERY = "INSERT INTO tb_user VALUES (?,?,0);";
-    public static final String DELETE_USER_QUERY = "DELETE FROM tb_user WHERE username=? and password=?;";
-    public static final String UPDATE_USER_QUERY = "UPDATE tb_user SET password = ? WHERE username = ?;";
+    public final String SELECT_USER_QUERY = "SELECT * FROM tb_user;";
+    public final String SELECT_USER_SELECTED_QUERY = "SELECT password FROM tb_user WHERE username = ?";
+    public final String INSERT_USER_QUERY = "INSERT INTO tb_user VALUES (?,?,0);";
+    public final String DELETE_USER_QUERY = "DELETE FROM tb_user WHERE username=? and password=?;";
+    public final String UPDATE_USER_QUERY = "UPDATE tb_user SET password = ? WHERE username = ?;";
     
-    public static final String SELECT_MEMBER_QUERY = "SELECT * FROM tb_member WHERE status = 1 ORDER BY id_member ASC;";
-    public static final String SELECT_COUNT_MEMBER_QUERY = "SELECT COUNT(id_member) AS no FROM tb_member;";
-    public static final String SELECT_LIKE_MEMBER_QUERY = "SELECT * FROM tb_member WHERE id_member LIKE ? OR nama LIKE ? AND status = 1 ORDER BY id_member ASC;";
-    public static final String SELECT_MEMBER_SELECTED_QUERY = "SELECT * FROM tb_member WHERE id_member = ?;";
-    public static final String UPDATE_MEMBER_QUERY = "UPDATE tb_member SET nama = ?, noktp = ?, alamat=?, nohp=?, jeniskelamin=? WHERE id_member = ?;";
-    public static final String DELETE_MEMBER_QUERY = "UPDATE tb_member SET status = 0 WHERE id_member=?;";
-    public static final String INSERT_MEMBER_QUERY = "INSERT INTO tb_member VALUES (?,?,?,?,?,?,1);";
+    public final String SELECT_MEMBER_QUERY = "SELECT * FROM tb_member WHERE status = 1 ORDER BY id_member ASC;";
+    public final String SELECT_COUNT_MEMBER_QUERY = "SELECT COUNT(id_member) AS no FROM tb_member;";
+    public final String SELECT_LIKE_MEMBER_QUERY = "SELECT * FROM tb_member WHERE id_member LIKE ? OR nama LIKE ? AND status = 1 ORDER BY id_member ASC;";
+    public final String SELECT_MEMBER_SELECTED_QUERY = "SELECT * FROM tb_member WHERE id_member = ?;";
+    public final String UPDATE_MEMBER_QUERY = "UPDATE tb_member SET nama = ?, noktp = ?, alamat=?, nohp=?, jeniskelamin=? WHERE id_member = ?;";
+    public final String DELETE_MEMBER_QUERY = "UPDATE tb_member SET status = 0 WHERE id_member=?;";
+    public final String INSERT_MEMBER_QUERY = "INSERT INTO tb_member VALUES (?,?,?,?,?,?,1);";
 
-    public static final String SELECT_KENDARAAN_QUERY = "SELECT * FROM tb_kendaraan WHERE ket = 1 ORDER BY id_kendaraan ASC;";
-    public static final String SELECT_COUNT_KENDARAAN_QUERY = "SELECT COUNT(id_kendaraan) AS no FROM tb_kendaraan;";
+    public final String SELECT_KENDARAAN_QUERY = "SELECT * FROM tb_kendaraan WHERE ket = 1 ORDER BY id_kendaraan ASC;";
+    public final String SELECT_COUNT_KENDARAAN_QUERY = "SELECT COUNT(id_kendaraan) AS no FROM tb_kendaraan;";
     public final String SELECT_LIKE_KENDARAAN_QUERY = "SELECT * FROM tb_kendaraan WHERE id_kendaraan LIKE ? OR no_plat LIKE ? OR merek LIKE ? OR warna LIKE ? OR tahun LIKE ? OR jenis LIKE ? OR kondisi LIKE ? OR status LIKE ? AND ket = 1 ORDER BY id_kendaraan ASC;";
     public final String SELECT_KENDARAAN_AVAILABLE_QUERY = "SELECT id_kendaraan FROM tb_kendaraan WHERE status = 'Tersedia' AND kondisi = 'Baik' AND jenis = ? AND ket = 1;";
     public final String SELECT_KENDARAAN_SELECTED_QUERY = "SELECT * FROM tb_kendaraan WHERE id_kendaraan = ?;";

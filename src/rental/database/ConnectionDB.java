@@ -10,6 +10,7 @@ package rental.database;
  * @author Alfian Hidayat
  */
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class ConnectionDB {
 
@@ -30,7 +31,7 @@ public class ConnectionDB {
                 conn = DriverManager.getConnection(DB_URL);
             }
         } catch (Exception e) {
-            System.err.print(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
@@ -40,8 +41,7 @@ public class ConnectionDB {
             rst = stm.executeQuery(query);
             return rst;
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return rst;
     }
@@ -52,7 +52,7 @@ public class ConnectionDB {
             stm.executeUpdate(query);
             return stm;
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return stm;
     }
@@ -62,7 +62,7 @@ public class ConnectionDB {
         try {
             update = conn.prepareStatement(query);
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
         return update;
     }

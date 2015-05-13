@@ -319,9 +319,15 @@ public class FormKendaraan extends javax.swing.JPanel {
             rst = preStmt.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
+                ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
+                preStmt.close();
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
-        tableKendaraan.setModel(DbUtils.resultSetToTableModel(rst));
-        ((DefaultTableModel) tableKendaraan.getModel()).setColumnIdentifiers(new Object[]{"ID Kendaraan", "No Polisi", "Merek", "Warna", "Harga", "Tahun", "Jenis", "Kondisi", "Status"});
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void tableKendaraanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableKendaraanMouseClicked
@@ -372,10 +378,15 @@ public class FormKendaraan extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Lengkapi data terlebih dahulu !");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, "Data gagal ditambahkan !");
         } finally {
-            viewTable();
-            btnClearActionPerformed(evt);
+            try {
+                viewTable();
+                btnClearActionPerformed(evt);
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -408,7 +419,7 @@ public class FormKendaraan extends javax.swing.JPanel {
                 viewTable();
                 preStmt.close();
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -438,8 +449,14 @@ public class FormKendaraan extends javax.swing.JPanel {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Data gagal dihapus !");
+        } finally {
+            try {
+                viewTable();
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
-        viewTable();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
 

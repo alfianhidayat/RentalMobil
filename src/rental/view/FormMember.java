@@ -45,13 +45,18 @@ public class FormMember extends javax.swing.JPanel {
         return super.preferredSize(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    protected void viewTable() {
-        rst = cdb.executeQuery(Query.SELECT_MEMBER_QUERY);
-        tableMember.setModel(DbUtils.resultSetToTableModel(rst));
-        ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
+    public void viewTable() {
+        try {
+            rst = cdb.executeQuery(Query.SELECT_MEMBER_QUERY);
+            tableMember.setModel(DbUtils.resultSetToTableModel(rst));
+            ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
+            rst.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
-    private void setIDMember() {
+    public void setIDMember() {
         txtIDMember.setText(ctr.autoKode(Query.SELECT_COUNT_MEMBER_QUERY, "M"));
     }
 
@@ -88,10 +93,10 @@ public class FormMember extends javax.swing.JPanel {
         lblHeader = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         panelButton = new javax.swing.JPanel();
-        btnClear = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -198,13 +203,6 @@ public class FormMember extends javax.swing.JPanel {
         panelButton.setBorder(javax.swing.BorderFactory.createTitledBorder("Button"));
         panelButton.setToolTipText("");
 
-        btnClear.setText("Clear");
-        btnClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearActionPerformed(evt);
-            }
-        });
-
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,6 +224,13 @@ public class FormMember extends javax.swing.JPanel {
             }
         });
 
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelButtonLayout = new javax.swing.GroupLayout(panelButton);
         panelButton.setLayout(panelButtonLayout);
         panelButtonLayout.setHorizontalGroup(
@@ -236,11 +241,11 @@ public class FormMember extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButtonLayout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpdate))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelButtonLayout.createSequentialGroup()
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpdate)))
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panelButtonLayout.setVerticalGroup(
@@ -249,11 +254,11 @@ public class FormMember extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
-                    .addComponent(btnClear))
+                    .addComponent(btnUpdate))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
+                .addGroup(panelButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDelete)
+                    .addComponent(btnClear))
                 .addContainerGap())
         );
 
@@ -314,21 +319,21 @@ public class FormMember extends javax.swing.JPanel {
                     .addComponent(txtIDMember, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblIDMember))
                 .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNama)
+                    .addComponent(lblJenisKelamin)
+                    .addComponent(rdLakiLaki)
+                    .addComponent(rdPerempuan))
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNoIdentitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNoIdentitas)
+                    .addComponent(lblNomorHP)
+                    .addComponent(txtNomorHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNama)
-                            .addComponent(lblJenisKelamin)
-                            .addComponent(rdLakiLaki)
-                            .addComponent(rdPerempuan))
-                        .addGap(7, 7, 7)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNoIdentitas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblNoIdentitas)
-                            .addComponent(lblNomorHP)
-                            .addComponent(txtNomorHP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblAlamat))
@@ -337,7 +342,7 @@ public class FormMember extends javax.swing.JPanel {
                     .addComponent(panelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addGap(18, 36, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -386,9 +391,16 @@ public class FormMember extends javax.swing.JPanel {
             rst = preStmt.executeQuery();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                tableMember.setModel(DbUtils.resultSetToTableModel(rst));
+                ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
+                preStmt.close();
+                rst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
-        tableMember.setModel(DbUtils.resultSetToTableModel(rst));
-        ((DefaultTableModel) tableMember.getModel()).setColumnIdentifiers(new Object[]{"ID Member", "Nama", "No. Kartu Identitas", "Alamat", "No. HP", "Jenis Kelamin"});
     }//GEN-LAST:event_txtSearchActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -412,8 +424,14 @@ public class FormMember extends javax.swing.JPanel {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Data Gagal di Update !");
+        } finally {
+            try {
+                viewTable();
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
-        viewTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -428,29 +446,47 @@ public class FormMember extends javax.swing.JPanel {
                 preStmt = cdb.updateStmt(Query.DELETE_MEMBER_QUERY);
                 preStmt.setString(1, txtIDMember.getText());
                 preStmt.executeUpdate();
-                viewTable();
                 JOptionPane.showMessageDialog(this, "Data berhasil dihapus !");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Data gagal dihapus !");
+        } finally {
+            try {
+                viewTable();
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
-            preStmt = cdb.updateStmt(Query.INSERT_MEMBER_QUERY);
-            preStmt.setString(1, txtIDMember.getText());
-            preStmt.setString(2, txtNama.getText());
-            preStmt.setString(3, txtNoIdentitas.getText());
-            preStmt.setString(4, txtAlamat.getText());
-            preStmt.setString(5, txtNomorHP.getText());
-            preStmt.setString(6, ctr.getSelectedButtonText(buttonGroup1));
-            preStmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan !");
+            if (!txtNama.getText().isEmpty()) {
+                if (!txtNoIdentitas.getText().isEmpty()) {
+                    preStmt = cdb.updateStmt(Query.INSERT_MEMBER_QUERY);
+                    preStmt.setString(1, txtIDMember.getText());
+                    preStmt.setString(2, txtNama.getText());
+                    preStmt.setString(3, txtNoIdentitas.getText());
+                    preStmt.setString(4, txtAlamat.getText());
+                    preStmt.setString(5, txtNomorHP.getText());
+                    preStmt.setString(6, ctr.getSelectedButtonText(buttonGroup1));
+                    preStmt.executeUpdate();
+                    JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan !");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Nama dan No. Identitas tidak boleh kosong !");
+            }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            JOptionPane.showMessageDialog(this, "Data gagal ditambahkan !");
+        } finally {
+            try {
+                viewTable();
+                preStmt.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
-        viewTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

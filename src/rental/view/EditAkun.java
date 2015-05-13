@@ -6,6 +6,7 @@
 package rental.view;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import rental.database.ConnectionDB;
@@ -20,6 +21,7 @@ public class EditAkun extends javax.swing.JFrame {
     ConnectionDB cdb = new ConnectionDB();
     Query Query = new Query();
     PreparedStatement prStmt = null;
+    ResultSet rst = null;
 
     /**
      * Creates new form FormLogin
@@ -41,14 +43,14 @@ public class EditAkun extends javax.swing.JFrame {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblPass = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
         txtPass = new javax.swing.JPasswordField();
         btnDelete = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblUser = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblHeader = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,8 +61,8 @@ public class EditAkun extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        jLabel3.setText("Password");
+        lblPass.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        lblPass.setText("Password");
 
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -76,13 +78,13 @@ public class EditAkun extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
-        jLabel2.setText("Username");
+        lblUser.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
+        lblUser.setText("Username");
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 255));
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
-        jLabel1.setText("Akun");
+        lblHeader.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
+        lblHeader.setText("Akun");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -90,14 +92,14 @@ public class EditAkun extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addComponent(jLabel1)
+                .addComponent(lblHeader)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 15, Short.MAX_VALUE)
-                .addComponent(jLabel1))
+                .addComponent(lblHeader))
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 255));
@@ -123,11 +125,11 @@ public class EditAkun extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblUser)
                         .addGap(22, 22, 22)
                         .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(lblPass)
                         .addGap(22, 22, 22)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -143,11 +145,11 @@ public class EditAkun extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblUser)
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lblPass)
                     .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -187,28 +189,37 @@ public class EditAkun extends javax.swing.JFrame {
                 txtUser.setText("");
                 txtPass.setText("");
                 prStmt.close();
-            }catch(SQLException e){
-                System.out.println(e.getMessage());
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         try {
-            prStmt = cdb.updateStmt(Query.DELETE_USER_QUERY);
+            prStmt = cdb.updateStmt(Query.SELECT_USER_SELECTED_QUERY);
             prStmt.setString(1, txtUser.getText());
-            prStmt.setString(2, txtPass.getText());
-            prStmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Akun Berhasil dihapus");
+            rst = prStmt.executeQuery();
+            if (rst.next()) {
+                if (rst.getString(1).equals(txtPass.getText())) {
+                    prStmt = cdb.updateStmt(Query.DELETE_USER_QUERY);
+                    prStmt.setString(1, txtUser.getText());
+                    prStmt.setString(2, txtPass.getText());
+                    prStmt.executeUpdate();
+                    JOptionPane.showMessageDialog(this, "Akun Berhasil dihapus");
+                }else{
+                    JOptionPane.showMessageDialog(this, "Password salah !");
+                }
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         } finally {
             try {
                 txtUser.setText("");
                 txtPass.setText("");
                 prStmt.close();
-            }catch(SQLException e){
-                System.out.println(e.getMessage());
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -217,12 +228,12 @@ public class EditAkun extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblHeader;
+    private javax.swing.JLabel lblPass;
+    private javax.swing.JLabel lblUser;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JTextField txtUser;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

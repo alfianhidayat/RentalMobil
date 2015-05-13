@@ -65,7 +65,14 @@ public class FormPenyewaan extends javax.swing.JPanel {
                 cbIDKendaraan.addItem(rst.getString(1));
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } finally {
+            try {
+                preStmt.close();
+                rst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }
 
@@ -77,9 +84,14 @@ public class FormPenyewaan extends javax.swing.JPanel {
             while (rst.next()) {
                 cbIDMember.addItem(rst.getString(1));
             }
-            rst.close();
         } catch (SQLException e) {
-            System.out.println(e);
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } finally {
+            try {
+                rst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }
 
@@ -91,9 +103,14 @@ public class FormPenyewaan extends javax.swing.JPanel {
             if (rst.next()) {
                 System.out.println(rst.getInt(7) + 8);
             }
-            rst.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } finally {
+            try {
+                rst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }
 
@@ -534,9 +551,15 @@ public class FormPenyewaan extends javax.swing.JPanel {
                     txtHargaSewa.setText("");
                 }
             }
-            rst.close();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        } finally {
+            try {
+                preStmt.close();
+                rst.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
         }
     }//GEN-LAST:event_cbIDKendaraanItemStateChanged
 
@@ -571,13 +594,14 @@ public class FormPenyewaan extends javax.swing.JPanel {
                     txtNamaMember.setText("");
                 }
             }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         } finally {
             try {
+                preStmt.close();
                 rst.close();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
     }//GEN-LAST:event_cbIDMemberItemStateChanged
