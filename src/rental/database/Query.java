@@ -35,7 +35,6 @@ public class Query {
     public final String UPDATE_STATUS_KENDARAAN_QUERY = "UPDATE tb_kendaraan SET status = ? WHERE id_kendaraan = ?;";
     public final String DELETE_KENDARAAN_QUERY = "UPDATE tb_kendaraan SET ket = 0 WHERE id_kendaraan=?;";
     
-    
     public final String SELECT_PENYEWAAN_JOIN_QUERY = "SELECT p.no_faktur, m.nama, k.merek, p.tgl_sewa, p.tgl_kembali, p.total_bayar FROM tb_penyewaan AS p, tb_member AS m, tb_kendaraan AS k WHERE k.id_kendaraan = p.id_kendaraan AND m.id_member = p.id_member ORDER BY no_faktur ASC";
     public final String SELECT_COUNT_PENYEWAAN_QUERY = "SELECT COUNT(no_faktur)as no FROM tb_penyewaan;";
     public final String INSERT_PENYEWAAN_QUERY = "INSERT INTO tb_penyewaan VALUES (?,?,?,?,?,?,?);";
