@@ -6,7 +6,11 @@
 package rental.view;
 
 import java.awt.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.*;
+import rental.database.ConnectionDB;
+import rental.database.Query;
 
 /**
  *
@@ -27,7 +31,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setLocationRelativeTo(null);
-
         panelMember = new FormMember();
         panelKendaraan = new FormKendaraan();
         panelPenyewaan = new FormPenyewaan();
@@ -41,6 +44,9 @@ public class Main extends javax.swing.JFrame {
         getContentPane().add(panelPengembalian);
         setPaneNull();
         panelMenu.setVisible(true);
+        if(isAdmin()){
+            menuAkun.enable();
+        }
 
     }
 
@@ -50,6 +56,23 @@ public class Main extends javax.swing.JFrame {
         panelPenyewaan.setVisible(false);
         panelMenu.setVisible(false);
         panelPengembalian.setVisible(false);
+    }
+
+    public boolean isAdmin() {
+        try {
+            ConnectionDB cdb = new ConnectionDB();
+            Query Query = new Query();
+            ResultSet rst = cdb.executeQuery(Query.SELECT_USER_ISADMIN_QUERY);
+            if (rst.next()) {
+                if (rst.getString(1).equals(FormLogin.akun)) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+        return false;
+
     }
 
     /**
@@ -151,6 +174,7 @@ public class Main extends javax.swing.JFrame {
         menuAkun.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         menuAkun.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alfian Hidayat\\Documents\\NetBeansProjects\\RentalMobil\\src\\rental\\asset\\akun_icon.png")); // NOI18N
         menuAkun.setText("Akun");
+        menuAkun.setEnabled(isAdmin());
         menuAkun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAkunActionPerformed(evt);

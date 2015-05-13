@@ -12,7 +12,8 @@ package rental.database;
 public class Query {
 
     public final String SELECT_USER_QUERY = "SELECT * FROM tb_user;";
-    public final String SELECT_USER_SELECTED_QUERY = "SELECT password FROM tb_user WHERE username = ?";
+    public final String SELECT_USER_ISADMIN_QUERY = "SELECT username FROM tb_user WHERE status = 1;";
+    public final String SELECT_USER_SELECTED_QUERY = "SELECT password FROM tb_user WHERE username = ?;";
     public final String INSERT_USER_QUERY = "INSERT INTO tb_user VALUES (?,?,0);";
     public final String DELETE_USER_QUERY = "DELETE FROM tb_user WHERE username=? and password=?;";
     public final String UPDATE_USER_QUERY = "UPDATE tb_user SET password = ? WHERE username = ?;";

@@ -18,7 +18,6 @@ import rental.database.Query;
  */
 public class GantiPassword extends javax.swing.JFrame {
 
-    FormLogin fl = new FormLogin();
     static ConnectionDB cdb = new ConnectionDB();
     Query Query = new Query();
     PreparedStatement preStmt = null;
@@ -28,7 +27,7 @@ public class GantiPassword extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(HIDE_ON_CLOSE);
-        lblAkun.setText(fl.akun);
+        lblAkun.setText(FormLogin.akun);
     }
 
     /**
